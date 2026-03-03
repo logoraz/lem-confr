@@ -1,10 +1,10 @@
-(defpackage #:lem-config/completions
+(defpackage #:lem-confr/completions
   (:use #:cl #:lem)
   (:import-from #:lem-core)
   (:import-from #:lem/prompt-window)
   (:documentation "Completions framework."))
 
-(in-package #:lem-config/completions)
+(in-package #:lem-confr/completions)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

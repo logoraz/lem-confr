@@ -1,19 +1,20 @@
-(defpackage #:lem-config/keybindings
+(defpackage #:lem-confr/keybindings
   (:use #:cl #:lem)
   (:import-from #:lem-core/commands/file
                 #:find-file-recursively)
   (:import-from #:lem-lisp-mode
                 #:lisp-apropos-package)
-  (:import-from #:lem-config/commands
+  (:import-from #:lem-confr/commands
                 #:stack-window-layout)
   (:documentation "General place for altered default keybindings."))
 
-(in-package #:lem-config/keybindings)
+(in-package #:lem-confr/keybindings)
 
 
-;;; =============================================================================
-;;; General
-;;; =============================================================================
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; General Keybindings
+
 ;; Make undo & redo what I am used to
 (defun custom-keybindings ()
   "Defining in a function to re-deploy after starting lem/legit after init."

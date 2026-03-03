@@ -1,4 +1,4 @@
-(defpackage #:lem-config/commands
+(defpackage #:lem-confr/commands
   (:use #:cl #:lem)
   (:import-from #:lem-core/commands/window
                 #:split-active-window-horizontally
@@ -13,7 +13,7 @@
            #:time-stamp)
   (:documentation "Custom commands."))
 
-(in-package #:lem-config/commands)
+(in-package #:lem-confr/commands)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

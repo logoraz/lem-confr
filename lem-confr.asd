@@ -1,29 +1,26 @@
-(defsystem "lem-config"
+(defsystem "lem-confr"
   :description "Modular Lem Configuration."
   :author "Erik P Almaraz <erikalmaraz@fastmail.com>"
   :license "MIT"
   :version (:read-file-form "version.sexp" :at (0 1))
-  :depends-on ("lem")
+  :depends-on ((:feature :sbcl "sb-concurrency"))
   :components
-  ((:module "source"
-    :serial nil ; Allow for parallel compilation where possible
+  ((:module "src"
     :components
-    (;; Base utilities - no dependencies
+    ((:file "cache")
      (:file "utilities")
      (:file "appearance")
-     ;; Core Functionality - minimal dependencies
      (:file "completions")
      (:file "commands" :depends-on ("utilities"))
-     ;; Dependent modules
      (:file "keybindings" :depends-on ("commands"))
      (:file "lisp-ide"  :depends-on ("commands"))
-     ;; Optional/Experimental
      (:file "playground"))))
   
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 
 Components:
+  - cache: redirects Lem's poorly mapped cache to XDG_CACHE_HOME/lem/*
   - utilities: Helper functions and common utilities  
   - appearance: Theme, colors, UI customization
   - completions: Completion system configuration
@@ -38,11 +35,10 @@ This system can be loaded independently or as part of Lem's initialization.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Register Systems
 ;;;
-;; The function `register-system-packages' must be called to register packages
-;; used or provided by your system when the name of the system/file that
-;; provides the package is not the same as the package name
-;; (converted to lower case).
-
+;;; The function `register-system-packages' must be called to register packages
+;;; used or provided by your system when the name of the system/file that
+;;; provides the package is not the same as the package name
+;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

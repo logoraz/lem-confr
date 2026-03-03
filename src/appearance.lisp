@@ -1,4 +1,4 @@
-(defpackage #:lem-config/appearance
+(defpackage #:lem-confr/appearance
   (:use #:cl #:lem)
   (:import-from #:lem-core
                 #:set-font
@@ -16,7 +16,7 @@
                 #:paredit-mode)
   (:documentation "Appearance Configuration"))
 
-(in-package #:lem-config/appearance)
+(in-package #:lem-confr/appearance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -25,19 +25,18 @@
 ;; Can't enable transparency or frame/window modifications as webview runs
 ;; as a separate process and communicates via json-rpc...
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Fonts
 ;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
-(set-font :name "Fira Code Light" :size 15)
+(set-font :name "Fira Code Light" :size 13)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Theme
 ;; See lem/src/ext/themes.lisp
 ;; https://github.com/lem-project/lem/commit/4d4b4b4e7b366313fd513bf33bcb10c0256ca824
-;; Since this commit "lem-defaul" is buggy and weird things happen
+;; Since this commit "lem-default" is buggy and weird things happen
 (load-theme "decaf") ; "lem-default"
 
 
@@ -90,3 +89,5 @@
 ;; Hack fix
 (add-hook *post-command-hook* 'lem/tabbar::update)
 
+;; Toggle/Disable tabbar
+#+nil (lem/tabbar::toggle-tabbar)

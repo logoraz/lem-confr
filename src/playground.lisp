@@ -1,9 +1,9 @@
-(defpackage #:lem-config/playground
+(defpackage #:lem-confr/playground
   (:use #:cl #:lem)
   (:export )
   (:documentation "Playground"))
 
-(in-package #:lem-config/playground)
+(in-package #:lem-confr/playground)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
