@@ -15,7 +15,6 @@
      (:file "keybindings" :depends-on ("commands"))
      (:file "lisp-ide"  :depends-on ("commands"))
      (:file "playground"))))
-  
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 
@@ -33,14 +32,12 @@ This system can be loaded independently or as part of Lem's initialization.
 ")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Register Systems
 ;;;
-;;; The function `register-system-packages' must be called to register packages
-;;; used or provided by your system when the name of the system/file that
-;;; provides the package is not the same as the package name
-;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Secondary Systems
-;;;
+(defsystem "lem-confr/contrib"
+  :description "Prototype Lem Extension systems."
+  :depends-on ("lem-confr")
+  :components
+  ((:module "contrib"
+    :components
+    ((:file "scratch")))))

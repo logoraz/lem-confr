@@ -18,13 +18,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Window Layouts
-
 ;; src/commands/window.lisp
 (define-command stack-window-layout () ()
   (split-active-window-horizontally)
   (next-window)
   (split-active-window-vertically))
-
 
 #+(or)
 (define-command project-window-layout () ()
@@ -35,7 +33,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Basics Commands
-
 (define-command open-init-file () ()
   (find-file
    (merge-pathnames "init.lisp" (lem-home))))
@@ -43,7 +40,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Time Stamps
-
 (defvar *time-stamp-format*
   ;; Equals Emacs org-mode's default format.
   '("<" :year "-" (:month 2) "-" (:day 2) " " :short-weekday ">")

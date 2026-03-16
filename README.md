@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="assets/cl-logoraz.svg" width="200" />
-  <img src="assets/lem.svg" width="200" />
+  <img src="assets/lem.svg" width="175" />
 </p>
 
 Modular configuration for Lem (Common Lisp Editor/IDE).
@@ -23,6 +23,8 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 - `src/`          --> Contains source files for this configuration
 - `contrib/`      --> WIP where protype lem extension systems will be held
 - `assets/`       --> Where images, lem.desktop, and related stuff are held
+- `files/`        --> Where CL system (and other) files are stored for deployment
+- `logs/`         --> Where logger stores `lem-confr` logs
 
 
 ## Setup
@@ -31,17 +33,13 @@ This Lem configuration is currently setup through my flake configuration, all
 that is nneded is to clone to `XDG_CONFIG_HOME`:
 
 ```bash
-
   $ cd ~/.config/lem
   $ git clone https://codeberg.org/logoraz/lem-confr.git lem
-
 ```
 
 
 ## TODOs (Wish List)
 
-  - Beautify error logging system, make more robust.
-    - disable Lem's debug.log's in user config directory!
   - Build out more personal keybindings
   - Build an extension analogous to Emacs' erc-mode
 

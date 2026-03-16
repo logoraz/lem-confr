@@ -14,7 +14,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; General Keybindings
-
 ;; Make undo & redo what I am used to
 (defun custom-keybindings ()
   "Defining in a function to re-deploy after starting lem/legit after init."

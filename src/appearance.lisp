@@ -39,7 +39,6 @@
 ;; Since this commit "lem-default" is buggy and weird things happen
 (load-theme "decaf") ; "lem-default"
 
-
 ;; Set custom Cursor color (variant base0d)
 ;; https://iamroot.tech/color-picker/default.aspx?color=88a2b7
 ;; See lem/src/cursors.lisp, lem/src/attribute.lisp
@@ -61,7 +60,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Dashboard
-
 (define-command lisp-scratch-2 () ()
   "Define lisp-scratch buffer that enables paredit mode straight away!"
   (let ((buffer (primordial-buffer)))

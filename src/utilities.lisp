@@ -11,7 +11,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; General Utilities
-
 (defun executable-find (program)
   "Find executable PROGRAM in PATH, return full path or NIL if not found (SBCL only)"
   (let* ((path-env (uiop:getenv "PATH"))
