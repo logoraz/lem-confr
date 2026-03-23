@@ -60,6 +60,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Dashboard
+(defvar *lem-confr-splash* '("
+              ####         ----              
+          ########         --------          
+       ###########         -----------       
+     #########        *        ---------     
+    #######          ***          -------    
+   #######          ******         -------   
+  #######             *****         -------  
+  ######         ***********         ------  
+  ######       ***************       ------  
+  #######     *****       *****     -------  
+   #######   *****         *****   -------   
+    #######                       -------    
+     #########                 ---------     
+       ###########         -----------       
+          ########         --------          
+              ####         ----              
+
+               Welcome to Lem!               
+"))
+
 (define-command lisp-scratch-2 () ()
   "Define lisp-scratch buffer that enables paredit mode straight away!"
   (let ((buffer (primordial-buffer)))
@@ -67,14 +88,12 @@
     (change-buffer-mode buffer 'paredit-mode t)
     (switch-to-buffer buffer)))
 
-(ignore-errors
-  #+(or)
-  (setf lem-dashboard:*dashboard-enable* nil)
-  (set-default-dashboard :project-count 3
-                         :file-count 7
-                         :hide-links t)
+(set-default-dashboard :splash *lem-confr-splash*
+                       :project-count 3
+                       :file-count 7
+                       :hide-links t)
 
-  (define-key *dashboard-mode-keymap* "l" 'lisp-scratch-2))
+(define-key *dashboard-mode-keymap* "l" 'lisp-scratch-2)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

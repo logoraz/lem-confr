@@ -7,8 +7,8 @@
   :components
   ((:module "src"
     :components
-    ((:file "cache")
-     (:file "utilities")
+    ((:file "utilities")
+     (:file "cache")
      (:file "appearance")
      (:file "completions")
      (:file "commands" :depends-on ("utilities"))
