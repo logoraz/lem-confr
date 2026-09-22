@@ -24,12 +24,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; General Editing 
+
 ;; Globally Enable Line Numbers:
 (lem/line-numbers::line-numbers-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Paredit
+
 ;; Enable paredit-mode in lisp-mode
 (add-hook *find-file-hook*
           (lambda (buffer)
@@ -60,23 +62,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Lisp Interaction (aka SLIME)
-;; WIP See if I can get slime to work with other CL implementations?
-
-#+nil
-(define-command slime-select () ()
-  (slime t))
-
-#+nil (define-key *lisp-mode-keymap* "C-c m s" 'slime-select)
-#+nil (define-key *lisp-mode-keymap* "C-c l" 'lem-lisp-mode/eval::lisp-eval-clear)
-#+nil
-(defvar *lisp-implementations* (list "sbcl" "ecl")
-  "List of currently installed implementations.")
-#+nil
-(defun lem-lisp-mode/implementation::list-installed-implementations ()
-  "Override internal function to specify my installed CL implementations"
-  (loop :for val :in *lisp-implementations*
-        :collect (if (executable-find val) val)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Lisp Interaction (aka SLIME)
+;;; WIP See if I can get slime to work with other CL implementations?
+

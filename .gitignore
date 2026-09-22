@@ -1,4 +1,6 @@
 # Main
+settings.sexp
 logs/
 ocicl/
 config.lisp
+todo/*

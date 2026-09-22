@@ -21,9 +21,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Frame Parameters/Transparency
-;; TBD
-;; Can't enable transparency or frame/window modifications as webview runs
-;; as a separate process and communicates via json-rpc...
+;;;
+;;; Can't enable transparency or frame/window modifications as webview runs
+;;; as a separate process and communicates via json-rpc...
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -33,10 +33,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Theme
+;;; Theme Configuration
+
 ;; See lem/src/ext/themes.lisp
-;; https://github.com/lem-project/lem/commit/4d4b4b4e7b366313fd513bf33bcb10c0256ca824
-;; Since this commit "lem-default" is buggy and weird things happen
 (load-theme "decaf") ; "lem-default"
 
 ;; Set custom Cursor color (variant base0d)
@@ -60,6 +59,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Dashboard
+
 (defvar *lem-confr-splash* '("
               ####         ----              
           ########         --------          
@@ -98,13 +98,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Tabs
-;; Tab bar does not update after killing buffers
-;; see See https://github.com/lem-project/lem/issues/1993
-;; |--> lem/frontends/server/tabbar.lisp (:lem/tabbar)
-;; |--> lem/src/commands/file.lisp (:lem-core/commands/file)
-;; |--> lem/src/buffer/buffer-ext.lisp (:lem-core)
-;; Hack fix
-(add-hook *post-command-hook* 'lem/tabbar::update)
 
 ;; Toggle/Disable tabbar
-#+nil (lem/tabbar::toggle-tabbar)
+(setf lem/tabbar:*enable-tabbar-on-startup* nil)

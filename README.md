@@ -1,4 +1,4 @@
-# lem-confr - Lem Configuration
+# lem-confr - Modular Lem Configuration
 
 <p align="center">
   <img src="assets/cl-logoraz.svg" width="200" />
@@ -7,48 +7,47 @@
 
 Modular configuration for Lem (Common Lisp Editor/IDE).
 
-This configuration is set up as its own Common Lisp system `:lem-confr`!
+This configuration is set up as its own Common Lisp system `lem-confr`!
 
 Stages convenient error logging, allowing the config to fail *quietly* and
 and generates `*.log` files in `lem/logs/` (each log entry is timestamped): 
-- `confr-error.log` lists any issues encounted upon loading, and
-- `confr-startup.log` lists successful startup
+- `confr-error.log` lists any issues encounted upon loading `lem-confr` system,
+- `confr-startup.log` lists successful startup.
 
 
 ## System Scaffold
 
-- `basis.lisp`    --> (Optional) Deploy CL rc files ready for ocicl
-- `init.lisp`     --> User init, bootstrap to load `:lem-confr'
+- `init.lisp`     --> User init, bootstrap to load `lem-confr` system
 - `lem-confr.asd` --> System definition for this configuration
 - `src/`          --> Contains source files for this configuration
 - `contrib/`      --> WIP where protype lem extension systems will be held
 - `assets/`       --> Where images, lem.desktop, and related stuff are held
 - `files/`        --> Where CL system (and other) files are stored for deployment
-- `logs/`         --> Where logger stores `lem-confr` logs
+- `logs/`         --> Where logger stores `lem-confr` system logs
 
 
 ## Setup
 
-This Lem configuration is currently setup through my flake configuration, all 
-that is nneded is to clone to `XDG_CONFIG_HOME`:
+Clone this repo and place in $XDG_CONFIG_HOME:
 
 ```bash
-  $ cd ~/.config/lem
-  $ git clone https://codeberg.org/logoraz/lem-confr.git lem
+  $ cd ~/.config/
+  $ git clone https://github.com/logoraz/lem-confr.git lem
 ```
 
 
 ## TODOs (Wish List)
 
   - Build out more personal keybindings
+  - Enable other SLIME for other CL Implementations (e.g. clasp)
   - Build an extension analogous to Emacs' erc-mode
 
-
 ## References:
+
   - lem source: https://github.com/lem-project/lem
   - General configuration layout inspirations:
     - https://github.com/garlic0x1/.lem/
     - https://github.com/fukamachi/.lem
   - Paredit configuration inspiration:
     - https://github.com/Gavinok/.lem
-  - TODO
+  

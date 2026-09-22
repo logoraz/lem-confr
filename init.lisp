@@ -10,6 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; ASDF Registry
+
 (ensure-directories-exist
  (uiop:xdg-cache-home "common-lisp/"))
 
@@ -26,6 +27,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Logging Facilities
+
 (defun current-time ()
   "Emits formatted time using local-time, with error handling."
   (handler-case
@@ -58,6 +60,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Load System
+
 (handler-case
     (progn
       (sb-ext:without-package-locks

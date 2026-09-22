@@ -1,8 +1,9 @@
-;;;; dot-clasprc.lisp -> .clasprc - Clasp Common Lisp Initialization File
+;;;; dot-clasprc.lisp -> .clasprc - Clasp Initialization File
 
-;;; Ensure ASDF/UIOP are enabled out-of-box
-(ignore-errors (require :asdf)
-               (require :uiop))
+(handler-bind ((warning #'muffle-warning))
+  (require :asdf)
+  (require :uiop))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -12,9 +13,9 @@
 ;; Use setup's --force option to override.
 
 ;; Present the following code to your LISP system at startup, either
-;; by adding it to your implementation's startup file:
-;; (~/.sbclrc, ~/.ccl-init.lisp ~/.eclrc, ~/.clasprc  ~/.abclrc, ~/.clinit.cl,
-;;  ~/.roswell/init.lisp)
+;; by adding it to your implementation's startup file
+;; (~/.sbclrc, ~/.clasprc, ~/.eclrc, ~/.abclrc, ~/.clinit.cl,
+;; or ~/.roswell/init.lisp)
 ;; or overriding it completely on the command line
 ;; (eg. sbcl --userinit init.lisp)
 
@@ -24,16 +25,16 @@
 ;; fails quietly...
 
 #-ocicl
-(ignore-errors
-  (let ((ocicl-runtime (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp")))
-    (when (probe-file ocicl-runtime)
-      (load ocicl-runtime)))
-  (asdf:initialize-source-registry
-   (list :source-registry
-         ;; Keyword :tree needed to find self-vendored non-available ocicl systems in ocicl/
-         (list :tree (uiop:getcwd))
-         :inherit-configuration)))
+(let ((ocicl-runtime (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp")))
+  (when (probe-file ocicl-runtime)
+    (load ocicl-runtime)))
+(asdf:initialize-source-registry
+ (list :source-registry
+       ;; Needed to store non-available ocicl systems in ocicl/
+       (list :directory (uiop:getcwd))
+       :inherit-configuration))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Other
+

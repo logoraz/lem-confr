@@ -13,6 +13,7 @@
 ;;; (should NOT be vomited in the user config directory)
 ;;; instead should be put in XDG_CACHE_HOME where cache should live...
 ;;; not sure why they did it this way...
+
 (defun redirect-listener-history ()
   "Redirect lem's lisp-repl history from ~/.config/lem/history/ to ~/.cache/lem/history/
 by redefining start-listener-mode to redirect its pathname argument."
@@ -59,6 +60,7 @@ then deletes the stray file left behind by lem's initial launch call."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Apply
+
 (redirect-debug-log)
 (redirect-history)
 (redirect-listener-history)
