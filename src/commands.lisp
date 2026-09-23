@@ -15,7 +15,8 @@
            #:*time-stamp-format*
            #:time-stamp
            #:lem-confr-clear-logs
-           #:lem-confr-clear-cache)
+           #:lem-confr-clear-cache
+           #:lem-confr-filer-refresh)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -64,3 +65,16 @@
        "Delete all of ~/.cache/lem/ (history, debug log, settings.sexp)?")
       (progn (clear-lem-cache) (message "Cleared lem cache."))
       (message "Cache clear cancelled.")))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Filer Commands
+
+
+(define-command lem-confr-filer-refresh () ()
+  "Re-render the current *Filer* buffer."
+  (let ((buf (lem/filer:filer-buffer)))
+    (if buf
+        (lem/filer:render buf (lem/filer:root-item buf))
+        (editor-error "Filer is not active"))))

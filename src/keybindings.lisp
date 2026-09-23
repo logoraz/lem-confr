@@ -4,10 +4,13 @@
                 #:find-file-recursively)
   (:import-from #:lem-lisp-mode
                 #:lisp-apropos-package)
-  (:import-from #:lem-confr/commands
+  (:import-from #:lem/filer
+                #:*filer-mode-keymap*)
+    (:import-from #:lem-confr/commands
                 #:stack-window-layout
                 #:lem-confr-clear-logs
-                #:lem-confr-clear-cache)
+                #:lem-confr-clear-cache
+                #:lem-confr-filer-refresh)
   (:documentation "General place for altered default keybindings."))
 
 (in-package #:lem-confr/keybindings)
@@ -39,7 +42,11 @@
   ;; Custom Commands
   (define-key *global-keymap* "C-c s" 'stack-window-layout)
   (define-key *global-keymap* "C-c l" 'lem-confr-clear-logs)
-  (define-key *global-keymap* "C-c C-l" 'lem-confr-clear-cache))
+  (define-key *global-keymap* "C-c C-l" 'lem-confr-clear-cache)
+  (define-key *filer-mode-keymap* "g" 'lem-confr-filer-refresh)
+
+  ;; Todo
+  )
 
 (custom-keybindings) ; Enable custom keybindings on initialization.
 
