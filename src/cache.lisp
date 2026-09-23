@@ -91,9 +91,26 @@ the empty directory so history/debug.log/settings.sexp writes still succeed."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
+;;; Lem Tutorial Saves Redirection
+
+(defun redirect-tutor-saves ()
+  "Redirect lem-tutor's save/progress files from ~/.config/lem/lem-tutor-saves/
+to ~/.cache/lem/lem-tutor-saves/ by redefining tutorial-save-file and
+tutorial-progress to merge with XDG_CACHE_HOME instead of lem-home."
+  (sb-ext:without-package-locks
+    (defun lem-tutor::tutorial-save-file ()
+      (merge-pathnames "lem-tutor-saves/lem-tutor-save.txt"
+                       (uiop:xdg-cache-home "lem/")))
+    (defun lem-tutor::tutorial-progress ()
+      (merge-pathnames "lem-tutor-saves/lem-tutor-progress.lisp"
+                       (uiop:xdg-cache-home "lem/")))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
 ;;; Apply
 
 (redirect-debug-log)
 (redirect-history)
 (redirect-listener-history)
 (redirect-settings)
+(redirect-tutor-saves)
