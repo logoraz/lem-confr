@@ -1,12 +1,12 @@
 (defpackage #:lem-confr/bug-fixes
   (:use #:cl #:lem)
-  (:documentation "Filer Fixes"))
+  (:documentation "Bug Fixes where possible..."))
 
 (in-package #:lem-confr/bug-fixes)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Filer
+;;; Filer (Highlighting/Overlay Issue)
 
 (sb-ext:without-package-locks
   (defun lem/filer:render (buffer item)
@@ -23,3 +23,7 @@ Filer pane highlighting on any directory expand/collapse."
           (lem/filer::render-item (buffer-point buffer) item 0)
           (move-to-line (buffer-point buffer) line)
           (back-to-indentation (buffer-point buffer)))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Other
