@@ -61,12 +61,17 @@
 ;;;
 ;;; Load System
 
-(handler-case
-    (progn
-      (sb-ext:without-package-locks
-        (asdf:load-system :lem-confr))
-      (save-log-file "lem/logs/confr-startup.log" "Success")
-      (message "lem-confr loaded successfully"))
-  (error (condition)
-    (save-log-file "lem/logs/confr-error.log" condition)
-    (message "Warning: lem-confr failed to load - continuing with defaults")))
+(let ((compiler-output (make-string-output-stream)))
+  (handler-case
+      (let ((*error-output* (make-broadcast-stream *error-output* compiler-output))
+            (*standard-output* (make-broadcast-stream *standard-output* compiler-output)))
+        (sb-ext:without-package-locks
+          (asdf:load-system :lem-confr))
+        (save-log-file "lem/logs/confr-startup.log" "Success")
+        (message "lem-confr loaded successfully"))
+    (error (condition)
+      (save-log-file "lem/logs/confr-error.log"
+                     (format nil "~A~%~%--- Compiler output ---~%~A"
+                             condition
+                             (get-output-stream-string compiler-output)))
+      (message "Warning: lem-confr failed to load - continuing with defaults"))))
