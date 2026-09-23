@@ -63,5 +63,14 @@
 ;;;
 ;;; Lisp Interaction (aka SLIME)
 ;;;
-;;; WIP See if I can get slime to work with other CL implementations?
+;;; Extend implementation detection past sbcl — upstream only checks sbcl
+;;; directly on PATH; Roswell-managed implementations are found separately,
+;;; but Guix-installed ones like clasp are neither.
 
+(sb-ext:without-package-locks
+  (defun lem-lisp-mode/implementation::list-installed-implementations ()
+    "Override upstream's sbcl-only check to also detect clasp, a
+Guix-installed implementation that upstream's roswell-based detection
+never sees."
+    (append (when (executable-find "sbcl") (list "sbcl"))
+            (when (executable-find "clasp") (list "clasp")))))
