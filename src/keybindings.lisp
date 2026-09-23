@@ -12,15 +12,20 @@
                 #:tabbar-prev)
   (:import-from #:lem/filer
                 #:*filer-mode-keymap*)
+  (:import-from #:lem-paredit-mode
+                #:*paredit-mode-keymap*
+                #:paredit-slurp
+                #:paredit-barf)
   (:import-from #:lem-confr/commands
                 #:stack-window-layout
                 #:lem-confr-clear-logs
                 #:lem-confr-clear-cache
-                #:lem-confr-filer-refresh)
+                #:lem-confr-filer-refresh
+                #:confr-paredit-quote-wrap)
+  (:export #:custom-keybindings)
   (:documentation "General place for altered default keybindings."))
 
 (in-package #:lem-confr/keybindings)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -32,7 +37,7 @@
   ;; Make undo & redo what I am used to
   (define-key *global-keymap* "C-/" 'undo)
   (define-key *global-keymap* "C-_" 'redo)
-  (define-key *global-keymap* "C-;" 'execute-command) ;; Alternative keybinding for `M-x'
+  #+nil (define-key *global-keymap* "C-;" 'execute-command) ;; Alternative keybinding for `M-x'
   
   (define-key *global-keymap* "C-h B" 'describe-bindings)
   (define-key *global-keymap* "C-h k" 'describe-key)
@@ -46,6 +51,11 @@
   (define-key *global-keymap* "C-c j" 'tabbar-next)
   (define-key *global-keymap* "C-c k" 'tabbar-prev)
 
+  ;; paredit
+  (define-key *paredit-mode-keymap* "Shift-Right" 'paredit-slurp)
+  (define-key *paredit-mode-keymap* "Shift-Left" 'paredit-barf)
+  (define-key *paredit-mode-keymap* "M-\"" 'confr-paredit-quote-wrap)
+  
   ;; Custom Commands
   (define-key *global-keymap* "C-c s" 'stack-window-layout)
   (define-key *global-keymap* "C-c l" 'lem-confr-clear-logs)
@@ -54,6 +64,10 @@
 
   ;; Todo
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Apply Keybindings
 
 (custom-keybindings) ; Enable custom keybindings on initialization.
 

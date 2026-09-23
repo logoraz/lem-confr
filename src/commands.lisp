@@ -4,6 +4,9 @@
                 #:split-active-window-horizontally
                 #:split-active-window-vertically
                 #:next-window)
+  (:import-from #:lem-paredit-mode
+                #:paredit-slurp
+                #:paredit-insert-doublequote)
   (:import-from #:local-time
                 #:format-timestring
                 #:now)
@@ -16,7 +19,8 @@
            #:time-stamp
            #:lem-confr-clear-logs
            #:lem-confr-clear-cache
-           #:lem-confr-filer-refresh)
+           #:lem-confr-filer-refresh
+           #:confr-paredit-quote-wrap)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -78,3 +82,14 @@
     (if buf
         (lem/filer:render buf (lem/filer:root-item buf))
         (editor-error "Filer is not active"))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Paredit
+
+(define-command confr-paredit-quote-wrap () ()
+  (progn
+    (paredit-insert-doublequote)
+    (paredit-slurp)
+    (delete-next-char)))
+
