@@ -17,15 +17,12 @@
 ;;;
 ;;; General Keybindings
 
-;; Make undo & redo what I am used to
 (defun custom-keybindings ()
   "Defining in a function to re-deploy after starting lem/legit after init."
+
+  ;; Make undo & redo what I am used to
   (define-key *global-keymap* "C-/" 'undo)
   (define-key *global-keymap* "C-_" 'redo)
-
-  ;; Hack Alt "M-" key doesn't seem to work for lem on Fedora 42...
-  ;; see https://github.com/lem-project/lem/pull/1811
-  ;; Added fix to lem/frontends/sdl2/keyboard.lisp
   (define-key *global-keymap* "C-;" 'execute-command) ;; Alternative keybinding for `M-x'
   
   (define-key *global-keymap* "C-h B" 'describe-bindings)
@@ -33,12 +30,13 @@
   (define-key *global-keymap* "C-h a" 'apropos-command)
   (define-key *global-keymap* "C-h p" 'lisp-apropos-package)
   (define-key *global-keymap* "C-x F" 'find-file-recursively)
+  (define-key *global-keymap* "C-c e" 'lisp-eval-clear)
 
   ;; tabbar keybindings
   (define-key *global-keymap* "C-c j" 'lem/tabbar::tabbar-next)
   (define-key *global-keymap* "C-c k" 'lem/tabbar::tabbar-prev)
 
-  ;; My own commands
+  ;; Custom Commands
   (define-key *global-keymap* "C-c s" 'stack-window-layout)
   (define-key *global-keymap* "C-c l" 'lem-confr-clear-logs)
   (define-key *global-keymap* "C-c C-l" 'lem-confr-clear-cache))

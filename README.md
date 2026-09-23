@@ -39,7 +39,6 @@ Clone this repo and place in $XDG_CONFIG_HOME:
 ## TODOs (Wish List)
 
   - Build out more personal keybindings
-  - Enable other SLIME for other CL Implementations (e.g. clasp)
   - Build an extension analogous to Emacs' erc-mode
 
 ## References:

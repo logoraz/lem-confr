@@ -22,8 +22,10 @@
 ;;;
 ;;; Frame Parameters/Transparency
 ;;;
-;;; Can't enable transparency or frame/window modifications as webview runs
-;;; as a separate process and communicates via json-rpc...
+;;; webkit_web_view_set_background_color only fills in where the page draws
+;;; nothing, but editor.js repaints an opaque canvas background every frame, so
+;;; no CFFI call can override it. Real transparency needs patching that JS and
+;;; rebuilding the Vite bundle — not a Lisp fix
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -43,7 +45,6 @@
 ;; See lem/src/cursors.lisp, lem/src/attribute.lisp
 ;; See lem/src/line-numbers.lisp, lem/src/ext/themes.lisp, 
 ;; lem/src/highlight-line.lisp
-
 (defvar *lc/default-cursor-color* "#88a2b7")
 
 (define-attribute cursor
