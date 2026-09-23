@@ -5,7 +5,9 @@
   (:import-from #:lem-lisp-mode
                 #:lisp-apropos-package)
   (:import-from #:lem-confr/commands
-                #:stack-window-layout)
+                #:stack-window-layout
+                #:lem-confr-clear-logs
+                #:lem-confr-clear-cache)
   (:documentation "General place for altered default keybindings."))
 
 (in-package #:lem-confr/keybindings)
@@ -37,7 +39,9 @@
   (define-key *global-keymap* "C-c k" 'lem/tabbar::tabbar-prev)
 
   ;; My own commands
-  (define-key *global-keymap* "C-c s" 'stack-window-layout))
+  (define-key *global-keymap* "C-c s" 'stack-window-layout)
+  (define-key *global-keymap* "C-c l" 'lem-confr-clear-logs)
+  (define-key *global-keymap* "C-c C-l" 'lem-confr-clear-cache))
 
 (custom-keybindings) ; Enable custom keybindings on initialization.
 

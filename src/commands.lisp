@@ -7,10 +7,15 @@
   (:import-from #:local-time
                 #:format-timestring
                 #:now)
+  (:import-from #:lem-confr/cache
+                #:clear-confr-logs
+                #:clear-lem-cache)
   (:export #:stack-window-layout
            #:open-init-file
            #:*time-stamp-format*
-           #:time-stamp)
+           #:time-stamp
+           #:lem-confr-clear-logs
+           #:lem-confr-clear-cache)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -43,3 +48,19 @@
   "Print a timestamp of today, in the form <2042-12-01 Mon>."
   (insert-string (current-point) (format-time-stamp :stream t)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Clear Cache Commands
+
+(define-command lem-confr-clear-logs () ()
+  "Delete lem-confr's logs (confr-error.log, confr-startup.log)."
+  (clear-confr-logs)
+  (message "Cleared lem-confr logs."))
+
+
+(define-command lem-confr-clear-cache () ()
+  "Wipe $XDG_CACHE_HOME/lem/, after confirmation."
+  (if (prompt-for-y-or-n-p
+       "Delete all of ~/.cache/lem/ (history, debug log, settings.sexp)?")
+      (progn (clear-lem-cache) (message "Cleared lem cache."))
+      (message "Cache clear cancelled.")))
