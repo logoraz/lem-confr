@@ -4,9 +4,15 @@
                 #:find-file-recursively)
   (:import-from #:lem-lisp-mode
                 #:lisp-apropos-package)
+  (:import-from #:lem-lisp-mode/eval
+                #:lisp-eval-clear)
+  (:import-from #:lem/tabbar
+                #:toggle-tabbar
+                #:tabbar-next
+                #:tabbar-prev)
   (:import-from #:lem/filer
                 #:*filer-mode-keymap*)
-    (:import-from #:lem-confr/commands
+  (:import-from #:lem-confr/commands
                 #:stack-window-layout
                 #:lem-confr-clear-logs
                 #:lem-confr-clear-cache
@@ -36,8 +42,9 @@
   (define-key *global-keymap* "C-c e" 'lisp-eval-clear)
 
   ;; tabbar keybindings
-  (define-key *global-keymap* "C-c j" 'lem/tabbar::tabbar-next)
-  (define-key *global-keymap* "C-c k" 'lem/tabbar::tabbar-prev)
+  (define-key *global-keymap* "C-c o" 'toggle-tabbar)
+  (define-key *global-keymap* "C-c j" 'tabbar-next)
+  (define-key *global-keymap* "C-c k" 'tabbar-prev)
 
   ;; Custom Commands
   (define-key *global-keymap* "C-c s" 'stack-window-layout)
