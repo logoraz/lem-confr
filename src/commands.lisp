@@ -4,23 +4,22 @@
                 #:split-active-window-horizontally
                 #:split-active-window-vertically
                 #:next-window)
-  (:import-from #:lem-paredit-mode
-                #:paredit-slurp
-                #:paredit-insert-doublequote)
   (:import-from #:local-time
                 #:format-timestring
                 #:now)
   (:import-from #:lem-confr/cache
                 #:clear-confr-logs
                 #:clear-lem-cache)
+  (:import-from #:lem-confr/lisp-ide
+                #:paredit-quotewrap)
   (:export #:stack-window-layout
            #:open-init-file
            #:*time-stamp-format*
            #:time-stamp
-           #:lem-confr-clear-logs
-           #:lem-confr-clear-cache
-           #:lem-confr-filer-refresh
-           #:confr-paredit-quote-wrap)
+           #:confr-clear-logs
+           #:confr-clear-cache
+           #:confr-filer-refresh
+           #:confr-paredit-quotewrap)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -57,13 +56,13 @@
 ;;;
 ;;; Clear Cache Commands
 
-(define-command lem-confr-clear-logs () ()
+(define-command confr-clear-logs () ()
   "Delete lem-confr's logs (confr-error.log, confr-startup.log)."
   (clear-confr-logs)
   (message "Cleared lem-confr logs."))
 
 
-(define-command lem-confr-clear-cache () ()
+(define-command confr-clear-cache () ()
   "Wipe $XDG_CACHE_HOME/lem/, after confirmation."
   (if (prompt-for-y-or-n-p
        "Delete all of ~/.cache/lem/ (history, debug log, settings.sexp)?")
@@ -76,7 +75,7 @@
 ;;; Filer Commands
 
 
-(define-command lem-confr-filer-refresh () ()
+(define-command confr-filer-refresh () ()
   "Re-render the current *Filer* buffer."
   (let ((buf (lem/filer:filer-buffer)))
     (if buf
@@ -87,9 +86,7 @@
 ;;;
 ;;; Paredit
 
-(define-command confr-paredit-quote-wrap () ()
-  (progn
-    (paredit-insert-doublequote)
-    (paredit-slurp)
-    (delete-next-char)))
+(define-command confr-paredit-quotewrap () ()
+  "Wrap the following s-expression/atom in double quotes."
+  (paredit-quotewrap))
 

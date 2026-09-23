@@ -5,7 +5,8 @@
            #:redirect-listener-history
            #:redirect-settings
            #:clear-confr-logs
-           #:clear-lem-cache)
+           #:clear-lem-cache
+           #:redirect-tutor-saves)
   (:documentation "Redirect Lem's debug & history cache."))
 
 (in-package #:lem-confr/cache)

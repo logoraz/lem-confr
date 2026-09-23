@@ -11,33 +11,25 @@
      (:file "cache")
      (:file "appearance")
      (:file "completions")
-     (:file "commands" :depends-on ("utilities" "cache"))
+     (:file "lisp-ide")
+     (:file "commands" :depends-on ("utilities" "cache" "lisp-ide"))
      (:file "keybindings" :depends-on ("commands"))
-     (:file "lisp-ide"  :depends-on ("commands"))
      (:file "bug-fixes"))))
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 
-Components:
-  - cache: redirects Lem's poorly mapped cache to XDG_CACHE_HOME/lem/*
+Bootstrapped from init.lisp, which loads lem-confr defensively: failures are
+logged rather than left to block Lem from starting, so a broken edit during
+config development can be diagnosed from within Lem itself, without having
+to chase it down in a terminal.
+
+Modules/Packages:
   - utilities: Helper functions and common utilities  
+  - cache: redirects Lem's poorly mapped cache to XDG_CACHE_HOME/lem/*
   - appearance: Theme, colors, UI customization
   - completions: Completion system configuration
+  - lisp-ide: Common Lisp IDE enhancements
   - commands: Custom Lem commands
   - keybindings: Key binding configuration
-  - lisp-ide: Common Lisp IDE enhancements
-
-This system can be loaded independently or as part of Lem's initialization.
+  - bug-fixes: Patches for confirmed upstream Lem Bugs
 ")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Secondary Systems
-
-(defsystem "lem-confr/contrib"
-  :description "Prototype Lem Extension systems."
-  :depends-on ("lem-confr")
-  :components
-  ((:module "contrib"
-    :components
-    ((:file "scratch")))))

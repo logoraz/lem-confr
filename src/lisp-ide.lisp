@@ -5,9 +5,11 @@
   (:import-from #:lem-scheme-mode
                 #:scheme-mode)
   (:import-from #:lem-paredit-mode
-                #:paredit-mode)
+                #:paredit-mode
+                #:paredit-meta-doublequote)
   (:import-from #:lem-confr/utilities
                 #:executable-find)
+  (:export #:paredit-quotewrap)
   (:documentation "Lisp IDE Configuration"))
 
 (in-package #:lem-confr/lisp-ide)
@@ -34,6 +36,12 @@
           (lambda (buffer)
             (when (eq (buffer-major-mode buffer) 'scheme-mode)
               (change-buffer-mode buffer 'paredit-mode t))))
+
+(defun paredit-quotewrap ()
+  "Wrap the following s-expression/atom in double quotes, without the leading
+space paredit-meta-doublequote leaves behind."
+  (paredit-meta-doublequote)
+  (delete-next-char))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
