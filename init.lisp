@@ -1,6 +1,7 @@
 (defpackage #:lem-confr/init
   (:use #:cl #:lem)
   (:import-from #:local-time
+                #:+iso-8601-format+
                 #:now
                 #:format-timestring)
   (:documentation "lem-confr System Initialization."))
@@ -29,26 +30,30 @@
 ;;; Logging Facilities
 
 (defun current-time ()
-  "Emits formatted time using local-time, with error handling."
+  "Emits an ISO 8601 timestamp, with error handling."
   (handler-case
-      (format nil "[~A] "
-              (format-timestring nil (now)
-                                 :format '(:year "-" :month "-" :day "-T"
-                                           :hour ":" :min ":" :sec)))
+      (format-timestring nil (now) :format +iso-8601-format+)
     (error (condition)
-      (format nil "Error getting current time: ~A" condition))))
+      (format nil "??? (error getting time: ~A)" condition))))
 
-(defun save-log-file (pathspec output)
-  "Save log files for initializing lem-confr, with improved error handling."
+(defparameter *log-separator* (make-string 79 :initial-element #\-))
+
+(defun save-log-file (pathspec kind output)
+  "Append a formatted log entry. KIND is :startup or :error."
   (handler-case
-      (let ((path (uiop:xdg-config-home pathspec)))
+      (let ((path (uiop:xdg-config-home pathspec))
+            (output (string-right-trim '(#\Newline #\Return #\Space) output)))
         (ensure-directories-exist path)
         (with-open-file (strm path
                               :direction :output
                               :if-exists :append
                               :if-does-not-exist :create
                               :external-format :utf-8)
-          (format strm "~A Load lem-confr output: ~A~%" (current-time) output))
+          (format strm "[~A] ~A~%~A~%~%~A~%"
+                  (current-time)
+                  (ecase kind (:startup "STARTUP") (:error "ERROR"))
+                  output
+                  *log-separator*))
         t)
     (file-error (condition)
       (format t "File error while saving log ~A: ~A~%" pathspec condition)
@@ -61,17 +66,25 @@
 ;;;
 ;;; Load System
 
-(let ((compiler-output (make-string-output-stream)))
+(let ((compiler-output (make-string-output-stream))
+      (start (get-internal-real-time)))
   (handler-case
-      (let ((*error-output* (make-broadcast-stream *error-output* compiler-output))
-            (*standard-output* (make-broadcast-stream *standard-output* compiler-output)))
-        (sb-ext:without-package-locks
-          (asdf:load-system :lem-confr))
-        (save-log-file "lem/logs/confr-startup.log" "Success")
+      (let ((*error-output* 
+              (make-broadcast-stream *error-output* compiler-output))
+            (*standard-output* 
+              (make-broadcast-stream *standard-output* compiler-output)))
+        (asdf:load-system :lem-confr)
+        (save-log-file 
+         "lem/logs/confr-startup.log" :startup
+         (format nil "lem-confr v~A loaded in ~,3Fs"
+                 (asdf:component-version (asdf:find-system :lem-confr))
+                 (/ (- (get-internal-real-time) start)
+                    internal-time-units-per-second)))
         (message "lem-confr loaded successfully"))
     (error (condition)
-      (save-log-file "lem/logs/confr-error.log"
-                     (format nil "~A~%~%--- Compiler output ---~%~A"
-                             condition
-                             (get-output-stream-string compiler-output)))
+      (save-log-file 
+       "lem/logs/confr-error.log" :error
+       (format nil "~A~%~%--- Compiler output ---~%~A"
+               condition
+               (get-output-stream-string compiler-output)))
       (message "Warning: lem-confr failed to load - continuing with defaults"))))
