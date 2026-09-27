@@ -3,7 +3,7 @@
   :author "Erik P Almaraz"
   :license "MIT"
   :version (:read-file-form "version.sexp" :at (0 1))
-  :depends-on ((:feature :sbcl "sb-concurrency"))
+  :depends-on ("local-time")
   :components
   ((:module "src"
     :components

@@ -10,19 +10,33 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; ASDF Registry
+;;; Bootstrap & Configuration
 
-(ensure-directories-exist
- (uiop:xdg-cache-home "common-lisp/"))
+;; sb-concurrency is an SBCL contrib — require, not ASDF, avoids ocicl's
+;; searcher trying to download it as a third-party system
+#+sbcl
+(require :sb-concurrency)
+
+;; ocicl (must precede both ASDF setup steps below — it hooks into
+;; ASDF's system-definition search machinery)
+#-ocicl
+(let ((ocicl-runtime (uiop:xdg-data-home "ocicl/ocicl-runtime.lisp")))
+  (when (probe-file ocicl-runtime)
+    (load ocicl-runtime)))
+
+;; Source registry: recursively discover any .asd under ~/.config/lem/
+(asdf:initialize-source-registry
+ (list :source-registry
+       (list :tree (uiop:xdg-config-home "lem/"))
+       :inherit-configuration))
+
+;; Output translations: compiled fasls go to XDG_CACHE_HOME, never
+;; beside source (source may live somewhere read-only, e.g. Guix store)
+(ensure-directories-exist (uiop:xdg-cache-home "common-lisp/"))
 
 (asdf:initialize-output-translations
  (list :output-translations
        :enable-user-cache
-       :inherit-configuration))
-
-(asdf:initialize-source-registry
- (list :source-registry
-       (list :tree (uiop:xdg-config-home "lem/"))
        :inherit-configuration))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
