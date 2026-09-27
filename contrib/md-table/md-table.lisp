@@ -61,19 +61,63 @@ of table-row lines containing POINT, or NIL if POINT isn't on one."
                            :key (lambda (cells) (length (or (nth col cells) "")))
                            :initial-value 0))))
 
-(defun format-row (line widths)
-  "Reformat one table row LINE to the target column WIDTHS."
+(defun cell-alignment (cell)
+  "Determine a separator CELL's alignment from its colon markers."
+  (let* ((trimmed (string-trim '(#\space #\tab) cell))
+         (left (and (plusp (length trimmed)) (char= (char trimmed 0) #\:)))
+         (right (and (plusp (length trimmed)) (char= (char trimmed (1- (length trimmed))) #\:))))
+    (cond ((and left right) :center)
+          (right :right)
+          (left :left)
+          (t :default))))
+
+(defun column-alignments (row-lines)
+  "Per-column alignment (:left, :right, :center, or :default), read from
+the table's separator row. NIL if the table has no separator row, in
+which case every column defaults to :left."
+  (let ((separator (find-if #'separator-row-string-p row-lines)))
+    (when separator
+      (mapcar #'cell-alignment (split-row-cells separator)))))
+
+(defun pad-cell (cell width alignment)
+  "Pad CELL to WIDTH per ALIGNMENT (:left, :right, :center, or NIL,
+which behaves as :left)."
+  (let ((gap (- width (length cell))))
+    (ecase (or alignment :default)
+      ((:left :default)
+       (concatenate 'string cell (make-string gap :initial-element #\space)))
+      (:right
+       (concatenate 'string (make-string gap :initial-element #\space) cell))
+      (:center
+       (let* ((left (floor gap 2))
+              (right (- gap left)))
+         (concatenate 'string (make-string left :initial-element #\space)
+                      cell
+                      (make-string right :initial-element #\space)))))))
+
+(defun separator-cell (width alignment)
+  "Build one separator-row cell of total length WIDTH+2 (matching a
+content cell's ' content ' width), with colons placed per ALIGNMENT."
+  (let ((dashes (make-string (+ width 2) :initial-element #\-)))
+    (ecase (or alignment :default)
+      (:default dashes)
+      (:left    (concatenate 'string ":" (subseq dashes 1)))
+      (:right   (concatenate 'string (subseq dashes 0 (1- (length dashes))) ":"))
+      (:center  (concatenate 'string ":" (subseq dashes 1 (1- (length dashes))) ":")))))
+
+(defun format-row (line widths alignments)
+  "Reformat one table row LINE to the target column WIDTHS, using
+ALIGNMENTS for separator-colon placement and content-cell padding."
   (if (separator-row-string-p line)
       (format nil "|~{~A|~}"
-              (mapcar (lambda (w) (make-string (+ w 2) :initial-element #\-))
-                      widths))
+              (loop :for w :in widths
+                    :for i :from 0
+                    :collect (separator-cell w (nth i alignments))))
       (format nil "|~{ ~A |~}"
               (loop :for width :in widths
                     :for i :from 0
                     :for cell = (or (nth i (split-row-cells line)) "")
-                    :collect (concatenate 'string cell
-                                          (make-string (- width (length cell))
-                                                       :initial-element #\space))))))
+                    :collect (pad-cell cell width (nth i alignments))))))
 
 (defun format-table-at-point (point)
   "Reformat the markdown table under POINT to consistent column widths."
@@ -82,8 +126,9 @@ of table-row lines containing POINT, or NIL if POINT isn't on one."
       (editor-error "Not in a markdown table"))
     (let* ((row-lines (split-on-char (points-to-string start end) #\Newline))
            (widths (column-widths row-lines))
+           (alignments (column-alignments row-lines))
            (new-text (format nil "~{~A~^~%~}"
-                             (mapcar (lambda (line) (format-row line widths))
+                             (mapcar (lambda (line) (format-row line widths alignments))
                                      row-lines))))
       (delete-between-points start end)
       (insert-string start new-text))))
