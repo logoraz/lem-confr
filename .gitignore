@@ -1,13 +1,12 @@
 # Main
 
 ## Custom Configuration
-
 todo/
 logs/
 ocicl/
 ocicl.csv
 
 ## Lem Defaults
-
 settings.sexp
 config.lisp
+

@@ -8,7 +8,8 @@
                 #:paredit-mode
                 #:paredit-meta-doublequote)
   (:import-from #:lem-confr/utilities
-                #:executable-find)
+                #:executable-find
+                #:load-contrib)
   (:export #:paredit-quotewrap)
   (:documentation "Lisp IDE Configuration"))
 
@@ -92,3 +93,10 @@ sbcl should keep using its own fast, precompiled sbcl-micros."
     (lem-process:process-send-input
      process
      (format nil "(micros:create-server :port ~D :dont-close t)~%" port))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Markdown Mode Enhancement
+
+(add-hook lem-markdown-mode:*markdown-mode-hook*
+          (lambda () (load-contrib :confr-md-table)))

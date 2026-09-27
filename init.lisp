@@ -24,6 +24,13 @@
   (when (probe-file ocicl-runtime)
     (load ocicl-runtime)))
 
+;; Disable ocicl's automatic network-install fallback — its searcher
+;; sits last in ASDF's search chain, so it can hijack any unresolved
+;; name, even ones buried in third-party dependencies we don't
+;; control (e.g. sb-cltl2, via introspect-environment). Off, that
+;; falls through to a normal missing-component error instead.
+(setf ocicl-runtime:*download* nil)
+
 ;; Source registry: recursively discover any .asd under ~/.config/lem/
 (asdf:initialize-source-registry
  (list :source-registry
