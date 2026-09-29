@@ -35,6 +35,7 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `cache`       | Redirects Lem's cache to `$XDG_CACHE_HOME/lem/*` |
 | `appearance`  | Theme, colors, UI customization                  |
 | `completions` | Completion system configuration                  |
+| `editing`     | General text-editing behavior                    |
 | `lisp-ide`    | Common Lisp IDE enhancements                     |
 | `commands`    | Custom Lem commands                              |
 | `keybindings` | Key binding configuration                        |

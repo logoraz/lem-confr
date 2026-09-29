@@ -11,6 +11,7 @@
      (:file "cache")
      (:file "appearance")
      (:file "completions")
+     (:file "editing")
      (:file "lisp-ide" :depends-on ("utilities"))
      (:file "commands" :depends-on ("utilities" "cache" "lisp-ide"))
      (:file "keybindings" :depends-on ("commands"))
@@ -29,8 +30,10 @@ Modules/Packages:
   - cache: redirects Lem's poorly mapped cache to XDG_CACHE_HOME/lem/*
   - appearance: Theme, colors, UI customization
   - completions: Completion system configuration
+  - editing: General text-editing behavior
   - lisp-ide: Common Lisp IDE enhancements
   - commands: Custom Lem commands
   - keybindings: Key binding configuration
   - bug-fixes: Patches for confirmed upstream Lem Bugs
+  - scratch: Scratch code space for testing Lisp constructs.
 ")
