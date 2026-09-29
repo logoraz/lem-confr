@@ -26,4 +26,48 @@ Filer pane highlighting on any directory expand/collapse."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Other
+;;; Trailing Spaces (Toggle Issue)
+;;;
+;;; 1. Stale Highlighting on Disable
+;;; 2. Stale Highlighting on Re-enable
+;;;
+
+;; disable only unhooks scan-trailing-spaces from after-syntax-scan-hook —
+;; it never clears highlighting already applied to text scanned before the
+;; toggle. clear-space-attribute only runs inside scan-trailing-spaces
+;; itself, so disabling the mode leaves already-highlighted trailing
+;; spaces stuck with their cyan background until the buffer is reopened.
+
+(sb-ext:without-package-locks
+  (defun lem-trailing-spaces::disable ()
+    "Override to also clear existing highlighting in every live buffer,
+not just unhook future scans — see the comment above for why upstream's
+version leaves stale highlighting behind."
+    (remove-hook (variable-value 'after-syntax-scan-hook :global)
+                 'lem-trailing-spaces::scan-trailing-spaces)
+    (dolist (buffer (buffer-list))
+      (lem-trailing-spaces::clear-space-attribute (buffer-start-point buffer)
+                                                  (buffer-end-point buffer)))))
+
+;; enable only hooks scan-trailing-spaces for future syntax scans — it
+;; never applies it to content already in the buffer, so a trailing space
+;; unchanged since the mode was last disabled never gets re-highlighted
+;; until its line is edited again.
+
+(sb-ext:without-package-locks
+  (defun lem-trailing-spaces::enable ()
+    "Override to also scan the current buffer immediately on enable, not
+just hook future scans — see the comment above. Scoped to the current
+buffer only: scan-trailing-spaces checks (current-buffer) internally
+regardless of which buffer's points it's given, so looping over every
+open buffer here (unlike disable's fix) would check the wrong buffer's
+switchability for anything that isn't currently active."
+    (add-hook (variable-value 'after-syntax-scan-hook :global)
+              'lem-trailing-spaces::scan-trailing-spaces)
+    (let ((buffer (current-buffer)))
+      (lem-trailing-spaces::scan-trailing-spaces (buffer-start-point buffer)
+                                                 (buffer-end-point buffer)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; TODO
