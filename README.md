@@ -10,7 +10,7 @@ Modular configuration for Lem (Common Lisp Editor/IDE).
 This configuration is set up as its own Common Lisp System `lem-confr`!
 
 Stages convenient error logging, allowing the config to fail *quietly* and
-and generates `*.log` files in `lem/logs/` (each log entry is timestamped): 
+and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 - `confr-error.log` → lists any issues encounted upon loading `lem-confr` system,
 - `confr-startup.log` → lists successful startup.
 

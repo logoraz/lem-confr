@@ -90,12 +90,12 @@
 (let ((compiler-output (make-string-output-stream))
       (start (get-internal-real-time)))
   (handler-case
-      (let ((*error-output* 
+      (let ((*error-output*
               (make-broadcast-stream *error-output* compiler-output))
-            (*standard-output* 
+            (*standard-output*
               (make-broadcast-stream *standard-output* compiler-output)))
         (asdf:load-system :lem-confr)
-        (save-log-file 
+        (save-log-file
          "lem/logs/confr-startup.log" :startup
          (format nil "lem-confr v~A loaded in ~,3Fs"
                  (asdf:component-version (asdf:find-system :lem-confr))
@@ -103,7 +103,7 @@
                     internal-time-units-per-second)))
         (message "lem-confr loaded successfully"))
     (error (condition)
-      (save-log-file 
+      (save-log-file
        "lem/logs/confr-error.log" :error
        (format nil "~A~%~%--- Compiler output ---~%~A"
                condition

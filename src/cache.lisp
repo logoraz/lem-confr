@@ -13,7 +13,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Lem Cache Redirection 
+;;; Lem Cache Redirection
 ;;; (should NOT be VOMITED in the user config directory)
 ;;; Instead should be put in XDG_CACHE_HOME where cache should live!
 ;;; Why they chose to copy Emacs on this front baffles me...
@@ -39,7 +39,7 @@ by redefining start-listener-mode to redirect its pathname argument."
 
 
 (defun redirect-history ()
-  "Redirect lem's history files from ~/.config/lem/history/ to 
+  "Redirect lem's history files from ~/.config/lem/history/ to
 ~/.cache/lem/history/."
   (let ((cache-history (uiop:xdg-cache-home "lem/history/")))
     (ensure-directories-exist cache-history)
@@ -72,7 +72,7 @@ by redefining config-pathname to merge with XDG_CACHE_HOME instead of lem-home."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Lem Cache Redirection 
+;;; Lem Cache Redirection
 
 (defun clear-confr-logs ()
   "Recursively delete $XDG_CONFIG_HOME/lem/logs/ (confr-error.log,

@@ -43,7 +43,7 @@
 ;; Set custom Cursor color (variant base0d)
 ;; https://iamroot.tech/color-picker/default.aspx?color=88a2b7
 ;; See lem/src/cursors.lisp, lem/src/attribute.lisp
-;; See lem/src/line-numbers.lisp, lem/src/ext/themes.lisp, 
+;; See lem/src/line-numbers.lisp, lem/src/ext/themes.lisp,
 ;; lem/src/highlight-line.lisp
 (defvar *lc/default-cursor-color* "#88a2b7")
 
@@ -61,26 +61,30 @@
 ;;;
 ;;; Dashboard
 
-(defvar *lem-confr-splash* '("
-              ####         ----              
-          ########         --------          
-       ###########         -----------       
-     #########        *        ---------     
-    #######          ***          -------    
-   #######          ******         -------   
-  #######             *****         -------  
-  ######         ***********         ------  
-  ######       ***************       ------  
-  #######     *****       *****     -------  
-   #######   *****         *****   -------   
-    #######                       -------    
-     #########                 ---------     
-       ###########         -----------       
-          ########         --------          
-              ####         ----              
+(defvar *lem-confr-splash*
+  (list
+   (format nil "~{~A~%~}"
+           (list
+            "                                              "
+            "              ####         ----               "
+            "          ########         --------           "
+            "       ###########         -----------        "
+            "     #########        *        ---------      "
+            "    #######          ***          -------     "
+            "   #######          ******         -------    "
+            "  #######             *****         -------   "
+            "  ######         ***********         ------   "
+            "  ######       ***************       ------   "
+            "  #######     *****       *****     -------   "
+            "   #######   *****         *****   -------    "
+            "    #######                       -------     "
+            "     #########                 ---------      "
+            "       ###########         -----------        "
+            "          ########         --------           "
+            "              ####         ----               "
+            "                                              "
+            "               Welcome to Lem!                "))))
 
-               Welcome to Lem!               
-"))
 
 (define-command lisp-scratch-2 () ()
   "Define lisp-scratch buffer that enables paredit mode straight away!"

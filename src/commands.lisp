@@ -89,4 +89,3 @@
 (define-command confr-paredit-quotewrap () ()
   "Wrap the following s-expression/atom in double quotes."
   (paredit-quotewrap))
-

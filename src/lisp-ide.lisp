@@ -17,7 +17,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; General Editing 
+;;; General Editing
 
 ;; Globally Enable Line Numbers:
 (lem/line-numbers::line-numbers-mode)

@@ -26,7 +26,7 @@ config development can be diagnosed from within Lem itself, without having
 to chase it down in a terminal.
 
 Modules/Packages:
-  - utilities: Helper functions and common utilities  
+  - utilities: Helper functions and common utilities
   - cache: redirects Lem's poorly mapped cache to XDG_CACHE_HOME/lem/*
   - appearance: Theme, colors, UI customization
   - completions: Completion system configuration
