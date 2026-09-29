@@ -39,6 +39,7 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `commands`    | Custom Lem commands                              |
 | `keybindings` | Key binding configuration                        |
 | `bug-fixes`   | Patches for confirmed upstream Lem bugs          |
+| `scratch`     | Scratch code space for testing Lisp constructs   |
 
 
 ## Setup

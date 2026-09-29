@@ -14,7 +14,8 @@
      (:file "lisp-ide" :depends-on ("utilities"))
      (:file "commands" :depends-on ("utilities" "cache" "lisp-ide"))
      (:file "keybindings" :depends-on ("commands"))
-     (:file "bug-fixes"))))
+     (:file "bug-fixes")
+     (:file "scratch"))))
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 
