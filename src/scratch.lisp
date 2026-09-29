@@ -1,6 +1,11 @@
 (defpackage #:lem-confr/scratch
   (:use #:cl #:lem)
-  (:export #:julian-date-code)
+  (:import-from #:local-time
+                #:now
+                #:timestamp-year
+                #:timestamp-month
+                #:timestamp-day)
+  (:export #:insert-julian-date-code)
   (:documentation "Scratch code space for testing Lisp constructs."))
 
 (in-package #:lem-confr/scratch)
@@ -23,7 +28,22 @@
   "Return the YYDDD Julian code string for YEAR, MONTH, DAY."
   (format nil "~2,'0D~3,'0D" (mod year 100) (julian-day year month day)))
 
-;; (julian-date-code 2026 09 28)
+(defun current-julian-date-code ()
+  "Return today's Julian date code."
+  (let ((current (now)))
+    (julian-date-code (timestamp-year current)
+                      (timestamp-month current)
+                      (timestamp-day current))))
+
+(define-command insert-julian-date-code (&optional arg) (:universal-nil)
+  "Insert today's Julian date code (YYDDD) at point. With a universal
+argument, prompt for year, month, and day instead."
+  (let ((code (if arg
+                  (julian-date-code (parse-integer (prompt-for-string "Year: "))
+                                    (parse-integer (prompt-for-string "Month: "))
+                                    (parse-integer (prompt-for-string "Day: ")))
+                  (current-julian-date-code))))
+    (insert-string (current-point) code)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
