@@ -1,8 +1,8 @@
-(defpackage #:lem-confr/core/bug-fixes
+(defpackage #:lem-confr/core/grafts
   (:use #:cl #:lem)
-  (:documentation "Bug Fixes where possible..."))
+  (:documentation "Lem overrides grafted in where possible, else documented."))
 
-(in-package #:lem-confr/core/bug-fixes)
+(in-package #:lem-confr/core/grafts)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -70,7 +70,7 @@ switchability for anything that isn't currently active."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Line Numbers (Read-Only/Temporary Buffer Restriction)
+;;; Line Numbers (Read-Only/Temporary Buffer Restri<ction)
 ;;;
 ;;; 1. File Requirement
 ;;; 2. Over-Broad Fix (Read-Only Alone Wasn't Enough)
@@ -134,7 +134,7 @@ method for comparison."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Syntax Highlighting (Viewport-Scan Stale-State Bug — Bypass Available, Off)
+;;; Syntax Highlighting (Viewport-Scan Stale-State Bug)
 ;;;
 ;;; Lem only syntax-highlights the visible viewport on file-open, not the
 ;;; whole buffer (src/syntax-scanner.lisp, tracked via buffer-scanned-region),
@@ -149,10 +149,10 @@ method for comparison."
 ;;;
 ;;; Not an isolated function bug — syntax-scan-region dispatches to a
 ;;; syntax-table-specific parser whose state-propagation logic across
-;;; viewport chunks wasn't traced further. The bypass below restores
-;;; always-correct highlighting by forcing a full-buffer scan on every file
-;;; open, at the cost of the large-file performance win the viewport-only
-;;; approach exists for. Left off by default for that reason.
+;;; viewport chunks wasn't traced further. Fixed below by forcing a
+;;; full-buffer scan on every file open instead, trading away the
+;;; large-file performance win viewport-only scanning exists for in favor
+;;; of always-correct highlighting.
 
 (sb-ext:without-package-locks
   (defun lem-core::syntax-scan-when-buffer-showed (window)

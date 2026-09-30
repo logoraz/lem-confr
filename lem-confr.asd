@@ -20,7 +20,7 @@
        (:file "editing")
        (:file "filer")
        (:file "lisp-ide")
-       (:file "bug-fixes")))
+       (:file "grafts")))
      (:file "commands" :depends-on ("lib" "core"))
      (:file "keybindings" :depends-on ("core"))
      (:file "scratch"))))
@@ -42,6 +42,6 @@ Modules/Packages:
   - lisp-ide: Common Lisp IDE enhancements
   - commands: Custom Lem commands
   - keybindings: Key binding configuration
-  - bug-fixes: Patches for confirmed upstream Lem Bugs
+  - grafts: Patches/Grafts for confirmed upstream Lem Bugs
   - scratch: Scratch code space for testing Lisp constructs.
 ")

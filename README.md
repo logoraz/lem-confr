@@ -44,16 +44,16 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `editing`     | General text-editing behavior                    |
 | `filer`       | Filer extension --> dired                        |
 | `lisp-ide`    | Common Lisp IDE enhancements                     |
-| `bug-fixes`   | Patches for confirmed upstream Lem bugs          |
-| `scratch`     | Scratch code space for testing Lisp constructs   |
+| `grafts`      | Patches/Grafts for confirmed upstream Lem bugs   |
+
 
 ### `src` Top-Level Modules
 
-| Module        | Description                                      |
-|---------------|--------------------------------------------------|
-| `commands`    | Custom Lem commands                              |
-| `keybindings` | Key binding configuration                        |
-
+| Module        | Description                                    |
+|---------------|------------------------------------------------|
+| `commands`    | Custom Lem commands                            |
+| `keybindings` | Key binding configuration                      |
+| `scratch`     | Scratch code space for testing Lisp constructs |
 
 ## Setup
 Clone this repo and place in $XDG_CONFIG_HOME:
