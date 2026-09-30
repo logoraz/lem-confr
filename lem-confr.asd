@@ -20,10 +20,10 @@
        (:file "editing")
        (:file "filer")
        (:file "lisp-ide")
-       (:file "bug-fixes")
-       (:file "scratch")))
+       (:file "bug-fixes")))
      (:file "commands" :depends-on ("lib" "core"))
-     (:file "keybindings" :depends-on ("core")))))
+     (:file "keybindings" :depends-on ("core"))
+     (:file "scratch"))))
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 

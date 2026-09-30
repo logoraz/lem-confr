@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/cache
+(defpackage #:lem-confr/core/cache
   (:use #:cl #:lem)
   (:export #:redirect-debug-log
            #:redirect-history
@@ -9,7 +9,7 @@
            #:redirect-tutor-saves)
   (:documentation "Redirect Lem's debug & history cache."))
 
-(in-package #:lem-confr/cache)
+(in-package #:lem-confr/core/cache)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

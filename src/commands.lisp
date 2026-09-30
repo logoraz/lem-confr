@@ -7,17 +7,17 @@
   (:import-from #:local-time
                 #:format-timestring
                 #:now)
-  (:import-from #:lem-confr/cache
+  (:import-from #:lem-confr/core/cache
                 #:clear-confr-logs
                 #:clear-lem-cache)
-  (:import-from #:lem-confr/lisp-ide
+  (:import-from #:lem-confr/core/lisp-ide
                 #:paredit-quotewrap)
-  (:import-from #:lem-confr/editing
+  (:import-from #:lem-confr/core/editing
                 #:fill-column
                 #:split-words
                 #:wrap-words
                 #:paragraph-bounds)
-  (:import-from #:lem-confr/filer
+  (:import-from #:lem-confr/core/filer
                 #:filer-refresh
                 #:filer-create-directory)
   (:export #:stack-window-layout

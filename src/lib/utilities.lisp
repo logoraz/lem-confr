@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/utilities
+(defpackage #:lem-confr/lib/utilities
   (:use #:cl #:lem)
   (:import-from #:lem-core
                 #:lem-home)
@@ -7,7 +7,7 @@
            #:load-contrib)
   (:documentation "Basic utilities for lem-confr"))
 
-(in-package #:lem-confr/utilities)
+(in-package #:lem-confr/lib/utilities)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

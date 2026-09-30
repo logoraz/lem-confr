@@ -1,8 +1,8 @@
-(defpackage #:lem-confr/bug-fixes
+(defpackage #:lem-confr/core/bug-fixes
   (:use #:cl #:lem)
   (:documentation "Bug Fixes where possible..."))
 
-(in-package #:lem-confr/bug-fixes)
+(in-package #:lem-confr/core/bug-fixes)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -70,27 +70,30 @@ switchability for anything that isn't currently active."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Line Numbers (Read-Onlye Buffer Restriction)
+;;; Line Numbers (Read-Only/Temporary Buffer Restriction)
+;;;
+;;; 1. File Requirement
+;;; 2. Over-Broad Fix (Read-Only Alone Wasn't Enough)
 ;;;
 ;;; compute-left-display-area-content only draws line numbers when
 ;;; (buffer-filename (point-buffer point)) is non-nil — a deliberate
 ;;; upstream restriction, not a bug, that skips rendering entirely for any
-;;; buffer with no backing file, *tmp* included. Dropping that check
-;;; outright also lit up numbers in *dashboard* and *Filer*, both
-;;; file-less but unwanted. Replaced with a read-only check instead:
-;;; *tmp* and ordinary file buffers are editable and want numbers;
-;;; *dashboard*/*Filer* are read-only display buffers and don't.
+;;; buffer with no backing file, *tmp* included.
+;;;
+;;; Dropping that check outright also lit up numbers in *dashboard* and
+;;; *Filer* (read-only) and isearch's/M-x's/find-file's popup buffers
+;;; (editable, but built on lem/prompt-window's :temporary t buffers) —
+;;; none of which have a file either, but none of which want numbers.
+;;; Excluded via buffer-read-only-p and buffer-temporary-p instead of the
+;;; file check.
 
 (sb-ext:without-package-locks
   (defmethod lem-core:compute-left-display-area-content
       ((mode lem/line-numbers::line-numbers-mode) buffer point)
-    "Override to drop upstream's (buffer-filename ...) guard, so
-file-less editable buffers like *tmp* get numbers too — but keep
-excluding read-only, non-editing display buffers (e.g. *dashboard*, *Filer*)
-via buffer-read-only-p instead, since the real distinction was never
-'does this have a file', just 'is this ordinary editable text'.
-See lem/line-numbers.lisp's original method for comparison."
-    (unless (buffer-read-only-p buffer)
+    "Override to drop upstream's (buffer-filename ...) guard and exclude
+read-only/temporary buffers instead. See lem/line-numbers.lisp's original
+method for comparison."
+    (unless (or ( buffer-read-only-p buffer) (buffer-temporary-p buffer))
       (multiple-value-bind (computed-line active-line-p)
           (lem/line-numbers::compute-line buffer point)
         (let* ((num-format (or (variable-value
