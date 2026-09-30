@@ -16,12 +16,15 @@
                 #:*paredit-mode-keymap*
                 #:paredit-slurp
                 #:paredit-barf)
+  (:import-from #:lem-markdown-mode
+                #:*markdown-mode-keymap*)
   (:import-from #:lem-confr/commands
                 #:stack-window-layout
                 #:confr-clear-logs
                 #:confr-clear-cache
                 #:confr-filer-refresh
-                #:confr-paredit-quotewrap)
+                #:confr-paredit-quotewrap
+                #:confr-fill-paragraph)
   (:export #:editing-keybindings
            #:help-keybindings
            #:tabbar-keybindings
@@ -36,11 +39,14 @@
 ;;; General Keybindings
 
 (defun editing-keybindings ()
-  "Undo/redo remaps, alternative M-x binding, and file-navigation keys."
-  (define-key *global-keymap* "C-/" 'undo)
-  (define-key *global-keymap* "C-_" 'redo)
-  #+nil (define-key *global-keymap* "C-;" 'execute-command) ;; Alternative keybinding for `M-x'
-  (define-key *global-keymap* "C-x F" 'find-file-recursively))
+  "General editing keybindings: undo/redo, file navigation, and
+paragraph manipulation."
+  (define-key *global-keymap* "C-/"   'undo)
+  (define-key *global-keymap* "C-_"   'redo)
+  (define-key *global-keymap* "C-x F" 'find-file-recursively)
+  ;; rebind delete-active-window since I want M-q for fill-paragraph
+  (define-key *global-keymap* "C-c q" 'delete-active-window)
+  (define-key *markdown-mode-keymap* "M-q" 'confr-fill-paragraph))
 
 (defun help-keybindings ()
   "Bindings for describe-bindings, describe-key, apropos-command, and

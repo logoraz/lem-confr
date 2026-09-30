@@ -12,6 +12,11 @@
                 #:clear-lem-cache)
   (:import-from #:lem-confr/lisp-ide
                 #:paredit-quotewrap)
+  (:import-from #:lem-confr/editing
+                #:fill-column
+                #:split-words
+                #:wrap-words
+                #:paragraph-bounds)
   (:export #:stack-window-layout
            #:open-init-file
            #:*time-stamp-format*
@@ -19,7 +24,8 @@
            #:confr-clear-logs
            #:confr-clear-cache
            #:confr-filer-refresh
-           #:confr-paredit-quotewrap)
+           #:confr-paredit-quotewrap
+           #:confr-fill-paragraph)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -89,3 +95,16 @@
 (define-command confr-paredit-quotewrap () ()
   "Wrap the following s-expression/atom in double quotes."
   (paredit-quotewrap))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Editing
+
+(define-command confr-fill-paragraph () ()
+  "Reflow the current paragraph to fit within fill-column — analogous
+to Emacs's M-q."
+  (multiple-value-bind (start end) (paragraph-bounds)
+    (let* ((words (split-words (points-to-string start end)))
+           (fill-col (variable-value 'fill-column :default (current-buffer))))
+      (delete-between-points start end)
+      (insert-string start (wrap-words words fill-col)))))

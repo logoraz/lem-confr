@@ -13,7 +13,7 @@
      (:file "completions")
      (:file "editing")
      (:file "lisp-ide" :depends-on ("utilities"))
-     (:file "commands" :depends-on ("utilities" "cache" "lisp-ide"))
+     (:file "commands" :depends-on ("utilities" "cache" "editing" "lisp-ide"))
      (:file "keybindings" :depends-on ("commands"))
      (:file "bug-fixes")
      (:file "scratch"))))
