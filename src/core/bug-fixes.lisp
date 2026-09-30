@@ -109,3 +109,54 @@ method for comparison."
                           lem/line-numbers::line-numbers-attribute)))))
           (lem/buffer/line:make-content :string string
                                         :attributes attribute))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Filer (Mouse Hover Highlight — Known Limitation, Not Fixed Here)
+;;;
+;;; Filer's set-clickable (src/mouse.lisp) bundles hover-highlighting and
+;;; click-handling into one primitive — any clickable item gets highlighted
+;;; on hover with no way to opt out. That highlight only ever clears via
+;;; handle-mouse-hover-overlay, which runs solely as a *reaction to a new
+;;; mouse-move event arriving inside a Lem window*. If the pointer leaves
+;;; Lem's surface entirely (e.g. onto the Sway bar) rather than moving to
+;;; another point within it, no further event ever arrives, so the
+;;; highlight is left stuck until some other action incidentally clears it
+;;; (a click anywhere, hovering a different item, or an edit to the
+;;; buffer). There's a real :unhover-callback mechanism designed for
+;;; exactly this, it just never gets invoked in this case.
+;;;
+;;; This is a genuine upstream gap, not anything lem-confr introduced —
+;;; the proper fix needs the webview frontend itself to detect and forward
+;;; a real pointer-leave event (C/JS territory), which is out of reach for
+;;; a pure-Lisp override here. Not patched.
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Syntax Highlighting (Viewport-Scan Stale-State Bug — Bypass Available, Off)
+;;;
+;;; Lem only syntax-highlights the visible viewport on file-open, not the
+;;; whole buffer (src/syntax-scanner.lisp, tracked via buffer-scanned-region),
+;;; a deliberate performance tradeoff for large files. Correctly knowing
+;;; "is this line inside a comment/string" generally requires having parsed
+;;; everything before it — a chunked scan starting mid-file has no such
+;;; context unless carried forward correctly. Usually surfaces near the end
+;;; of a file, right after a long run of full-line comments: code past the
+;;; comment block gets stuck rendering as if still inside it. Self-corrects
+;;; on any edit, since that forces a fresh, correctly-contextualized scan of
+;;; the edited region specifically.
+;;;
+;;; Not an isolated function bug — syntax-scan-region dispatches to a
+;;; syntax-table-specific parser whose state-propagation logic across
+;;; viewport chunks wasn't traced further. The bypass below restores
+;;; always-correct highlighting by forcing a full-buffer scan on every file
+;;; open, at the cost of the large-file performance win the viewport-only
+;;; approach exists for. Left off by default for that reason.
+
+(sb-ext:without-package-locks
+  (defun lem-core::syntax-scan-when-buffer-showed (window)
+    "Bypass viewport-only scanning on file-open with a full-buffer scan
+instead, to avoid stale comment-state bleeding into later code — at the
+cost of the large-file performance win viewport-only scanning exists for."
+    (lem-core::syntax-scan-buffer (lem-core::window-buffer window))))
