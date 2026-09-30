@@ -22,14 +22,16 @@
                 #:stack-window-layout
                 #:confr-clear-logs
                 #:confr-clear-cache
-                #:confr-filer-refresh
                 #:confr-paredit-quotewrap
-                #:confr-fill-paragraph)
+                #:confr-fill-paragraph
+                #:confr-filer-refresh
+                #:confr-filer-create-directory)
   (:export #:editing-keybindings
            #:help-keybindings
            #:tabbar-keybindings
            #:paredit-keybindings
-           #:confr-keybindings)
+           #:confr-keybindings
+           #:filer-keybindings)
   (:documentation "General place for altered default keybindings."))
 
 (in-package #:lem-confr/keybindings)
@@ -71,11 +73,15 @@ lisp-apropos-package."
 (defun confr-keybindings ()
   "Bindings for lem-confr's own custom commands: window layout, Lisp
 eval-clear, log/cache clearing, and Filer refresh."
-  (define-key *global-keymap* "C-c s" 'stack-window-layout)
-  (define-key *global-keymap* "C-c e" 'lisp-eval-clear)
-  (define-key *global-keymap* "C-c l" 'confr-clear-logs)
-  (define-key *global-keymap* "C-c C-l" 'confr-clear-cache)
-  (define-key *filer-mode-keymap* "g" 'confr-filer-refresh))
+  (define-key *global-keymap* "C-c s"   'stack-window-layout)
+  (define-key *global-keymap* "C-c e"   'lisp-eval-clear)
+  (define-key *global-keymap* "C-c l"   'confr-clear-logs)
+  (define-key *global-keymap* "C-c C-l" 'confr-clear-cache))
+
+(defun filer-keybindings ()
+  "Bindings for lem-confr's Filer extension."
+  (define-key *filer-mode-keymap* "g" 'confr-filer-refresh)
+  (define-key *filer-mode-keymap* "+" 'confr-filer-create-directory))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -86,3 +92,4 @@ eval-clear, log/cache clearing, and Filer refresh."
 (tabbar-keybindings)
 (paredit-keybindings)
 (confr-keybindings)
+(filer-keybindings)

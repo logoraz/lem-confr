@@ -12,8 +12,9 @@
      (:file "appearance")
      (:file "completions")
      (:file "editing")
+     (:file "filer")
      (:file "lisp-ide" :depends-on ("utilities"))
-     (:file "commands" :depends-on ("utilities" "cache" "editing" "lisp-ide"))
+     (:file "commands" :depends-on ("utilities" "cache" "editing" "filer" "lisp-ide"))
      (:file "keybindings" :depends-on ("commands"))
      (:file "bug-fixes")
      (:file "scratch"))))
@@ -31,6 +32,7 @@ Modules/Packages:
   - appearance: Theme, colors, UI customization
   - completions: Completion system configuration
   - editing: General text-editing behavior
+  - filer: Filer extensions --> dired-like
   - lisp-ide: Common Lisp IDE enhancements
   - commands: Custom Lem commands
   - keybindings: Key binding configuration

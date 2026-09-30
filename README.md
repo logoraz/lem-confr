@@ -36,6 +36,7 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `appearance`  | Theme, colors, UI customization                  |
 | `completions` | Completion system configuration                  |
 | `editing`     | General text-editing behavior                    |
+| `filer`       | Filer extension --> dired                        |
 | `lisp-ide`    | Common Lisp IDE enhancements                     |
 | `commands`    | Custom Lem commands                              |
 | `keybindings` | Key binding configuration                        |

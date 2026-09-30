@@ -17,15 +17,18 @@
                 #:split-words
                 #:wrap-words
                 #:paragraph-bounds)
+  (:import-from #:lem-confr/filer
+                #:filer-refresh
+                #:filer-create-directory)
   (:export #:stack-window-layout
-           #:open-init-file
            #:*time-stamp-format*
-           #:time-stamp
-           #:confr-clear-logs
-           #:confr-clear-cache
-           #:confr-filer-refresh
-           #:confr-paredit-quotewrap
+           #:time-stamp)
+  (:export #:confr-paredit-quotewrap
            #:confr-fill-paragraph)
+  (:export #:confr-clear-logs
+           #:confr-clear-cache)
+  (:export #:confr-filer-refresh
+           #:confr-filer-create-directory)
   (:documentation "Custom commands."))
 
 (in-package #:lem-confr/commands)
@@ -80,13 +83,13 @@
 ;;;
 ;;; Filer Commands
 
-
 (define-command confr-filer-refresh () ()
   "Re-render the current *Filer* buffer."
-  (let ((buf (lem/filer:filer-buffer)))
-    (if buf
-        (lem/filer:render buf (lem/filer:root-item buf))
-        (editor-error "Filer is not active"))))
+  (filer-refresh))
+
+(define-command confr-filer-create-directory (name) ((:string "Directory name: "))
+  "Create a new directory inside the current *Filer* view."
+  (filer-create-directory name))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
