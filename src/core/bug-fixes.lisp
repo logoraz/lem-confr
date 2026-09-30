@@ -70,29 +70,39 @@ switchability for anything that isn't currently active."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Line Numbers (No-File Buffer Restriction)
+;;; Line Numbers (Read-Onlye Buffer Restriction)
 ;;;
 ;;; compute-left-display-area-content only draws line numbers when
 ;;; (buffer-filename (point-buffer point)) is non-nil — a deliberate
 ;;; upstream restriction, not a bug, that skips rendering entirely for any
-;;; buffer with no backing file, *tmp* included. Overridden below to drop
-;;; that guard so file-less buffers get numbers too.
+;;; buffer with no backing file, *tmp* included. Dropping that check
+;;; outright also lit up numbers in *dashboard* and *Filer*, both
+;;; file-less but unwanted. Replaced with a read-only check instead:
+;;; *tmp* and ordinary file buffers are editable and want numbers;
+;;; *dashboard*/*Filer* are read-only display buffers and don't.
 
 (sb-ext:without-package-locks
   (defmethod lem-core:compute-left-display-area-content
       ((mode lem/line-numbers::line-numbers-mode) buffer point)
-    "Override to drop upstream's (buffer-filename ...) guard, which skips
-line-number rendering entirely for buffers with no backing file (including
-*tmp*). See lem/line-numbers.lisp's original method for comparison."
-    (multiple-value-bind (computed-line active-line-p)
-        (lem/line-numbers::compute-line buffer point)
-      (let* ((num-format (or (variable-value 'lem/line-numbers::line-number-format
-                                             :default buffer)
-                             (lem/line-numbers::get-buffer-num-format buffer)))
-             (string (format nil num-format computed-line))
-             (attribute (if active-line-p
-                            `((0 ,(length string)
-                                 lem/line-numbers::active-line-number-attribute))
-                            `((0 ,(length string)
-                                 lem/line-numbers::line-numbers-attribute)))))
-        (lem/buffer/line:make-content :string string :attributes attribute)))))
+    "Override to drop upstream's (buffer-filename ...) guard, so
+file-less editable buffers like *tmp* get numbers too — but keep
+excluding read-only, non-editing display buffers (e.g. *dashboard*, *Filer*)
+via buffer-read-only-p instead, since the real distinction was never
+'does this have a file', just 'is this ordinary editable text'.
+See lem/line-numbers.lisp's original method for comparison."
+    (unless (buffer-read-only-p buffer)
+      (multiple-value-bind (computed-line active-line-p)
+          (lem/line-numbers::compute-line buffer point)
+        (let* ((num-format (or (variable-value
+                                'lem/line-numbers::line-number-format
+                                :default buffer)
+                               (lem/line-numbers::get-buffer-num-format buffer)))
+               (string (format nil num-format computed-line))
+               (attribute
+                 (if active-line-p
+                     `((0 ,(length string)
+                          lem/line-numbers::active-line-number-attribute))
+                     `((0 ,(length string)
+                          lem/line-numbers::line-numbers-attribute)))))
+          (lem/buffer/line:make-content :string string
+                                        :attributes attribute))))))

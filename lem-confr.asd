@@ -7,17 +7,23 @@
   :components
   ((:module "src"
     :components
-    ((:file "utilities")
-     (:file "cache")
-     (:file "appearance")
-     (:file "completions")
-     (:file "editing")
-     (:file "filer")
-     (:file "lisp-ide" :depends-on ("utilities"))
-     (:file "commands" :depends-on ("utilities" "cache" "editing" "filer" "lisp-ide"))
-     (:file "keybindings" :depends-on ("commands"))
-     (:file "bug-fixes")
-     (:file "scratch"))))
+    ((:module "lib"
+      :components
+      ((:file "syntax")
+       (:file "utilities")))
+     (:module "core"
+      :depends-on ("lib")
+      :components
+      ((:file "cache")
+       (:file "appearance")
+       (:file "completions")
+       (:file "editing")
+       (:file "filer")
+       (:file "lisp-ide")
+       (:file "bug-fixes")
+       (:file "scratch")))
+     (:file "commands" :depends-on ("lib" "core"))
+     (:file "keybindings" :depends-on ("core")))))
   :long-description "
 Modular Lem configuration scaffolded as its own system.
 

@@ -27,21 +27,32 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `files/`        | CL system (and other) files staged for deployment       |
 | `logs/`         | Where `lem-confr`'s logger stores its logs              |
 
-### `src/` Modules
+### `src/lib` Modules
+
+| Module      | Description                           |
+|-------------|---------------------------------------|
+| `utilities` | Helper functions and common utilities |
+| `syntax`    | (WIP) Macros & Syntax Extensions      |
+
+### `src/core` Modules
 
 | Module        | Description                                      |
 |---------------|--------------------------------------------------|
-| `utilities`   | Helper functions and common utilities            |
 | `cache`       | Redirects Lem's cache to `$XDG_CACHE_HOME/lem/*` |
 | `appearance`  | Theme, colors, UI customization                  |
 | `completions` | Completion system configuration                  |
 | `editing`     | General text-editing behavior                    |
 | `filer`       | Filer extension --> dired                        |
 | `lisp-ide`    | Common Lisp IDE enhancements                     |
-| `commands`    | Custom Lem commands                              |
-| `keybindings` | Key binding configuration                        |
 | `bug-fixes`   | Patches for confirmed upstream Lem bugs          |
 | `scratch`     | Scratch code space for testing Lisp constructs   |
+
+### `src` Top-Level Modules
+
+| Module        | Description                                      |
+|---------------|--------------------------------------------------|
+| `commands`    | Custom Lem commands                              |
+| `keybindings` | Key binding configuration                        |
 
 
 ## Setup
