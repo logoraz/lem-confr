@@ -1,5 +1,7 @@
 (defpackage #:lem-confr/lisp-ide
   (:use #:cl #:lem)
+  (:import-from #:lem/line-numbers
+                #:line-numbers-mode)
   (:import-from #:lem-lisp-mode
                 #:lisp-mode)
   (:import-from #:lem-scheme-mode
@@ -18,9 +20,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; General Editing
-
 ;; Globally Enable Line Numbers:
-(lem/line-numbers::line-numbers-mode)
+(line-numbers-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -48,9 +49,13 @@ space paredit-meta-doublequote leaves behind."
 ;;;
 ;;; Lisp Interaction (aka SLIME)
 ;;;
-;;; Extend implementation detection past sbcl — upstream only checks sbcl
-;;; directly on PATH; Roswell-managed implementations are found separately,
-;;; but Guix-installed ones like clasp are neither.
+;;; 1. Change *tmp* buffer to lisp-mode
+;;;
+;;; 2. Extend implementation detection past sbcl — upstream only checks sbcl
+;;;    directly on PATH; Roswell-managed implementations are found separately,
+;;;    but Guix-installed ones like clasp are neither.
+
+(change-buffer-mode (get-buffer "*tmp*") 'lisp-mode)
 
 (sb-ext:without-package-locks
   (defun lem-lisp-mode/implementation::list-installed-implementations ()
