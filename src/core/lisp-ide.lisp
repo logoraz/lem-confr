@@ -10,7 +10,8 @@
                 #:paredit-mode
                 #:paredit-meta-doublequote)
   (:import-from #:lem-confr/lib/utilities
-                #:executable-find
+                #:executable-find)
+  (:import-from #:lem-confr/lib/syntax
                 #:load-contrib)
   (:export #:paredit-quotewrap)
   (:documentation "Lisp IDE Configuration"))

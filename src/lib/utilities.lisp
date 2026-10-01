@@ -3,8 +3,7 @@
   (:import-from #:lem-core
                 #:lem-home)
   (:export #:executable-find
-           #:create-symlink
-           #:load-contrib)
+           #:create-symlink)
   (:documentation "Basic utilities for lem-confr"))
 
 (in-package #:lem-confr/lib/utilities)
@@ -50,10 +49,4 @@ Returns T if symlink was created, NIL if it already existed and FORCE was nil."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Other
-
-(defun load-contrib (system &optional (package system))
-  "Load the contrib SYSTEM via ASDF, unless PACKAGE (a package designator,
-defaulting to SYSTEM itself) already names a loaded package."
-  (unless (find-package package)
-    (asdf:load-system system)))
+;;; TODO
