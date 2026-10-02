@@ -27,14 +27,15 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `files/`        | CL system (and other) files staged for deployment       |
 | `logs/`         | Where `lem-confr`'s logger stores its logs              |
 
-### `src/lib` Modules
+### `lib` (`code/lib`) Module
 
 | Module      | Description                           |
 |-------------|---------------------------------------|
-| `utilities` | Helper functions and common utilities |
 | `syntax`    | (WIP) Macros & Syntax Extensions      |
+| `utilities` | Helper functions and common utilities |
 
-### `src/core` Modules
+
+### `base` (`code/base`) Module
 
 | Module        | Description                                      |
 |---------------|--------------------------------------------------|
@@ -47,7 +48,7 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `grafts`      | Patches/Grafts for confirmed upstream Lem bugs   |
 
 
-### `src` Top-Level Modules
+### `interface` (`code`) top-level Module
 
 | Module        | Description                                    |
 |---------------|------------------------------------------------|
@@ -56,6 +57,7 @@ and generates `*.log` files in `lem/logs/` (each log entry is timestamped):
 | `scratch`     | Scratch code space for testing Lisp constructs |
 
 ## Setup
+
 Clone this repo and place in $XDG_CONFIG_HOME:
 
 ```bash
@@ -69,6 +71,7 @@ Clone this repo and place in $XDG_CONFIG_HOME:
 
 
 ## References
+
 - lem source: https://github.com/lem-project/lem
 - General configuration layout inspirations:
   - https://github.com/garlic0x1/.lem/
@@ -78,16 +81,21 @@ Clone this repo and place in $XDG_CONFIG_HOME:
 
 
 ## License
+
 ```lisp
 (defmacro license-terms (system . plist)
   "See LICENSE for the actual legally-binding, non-parenthesized version."
   (declare (optimize (safety 0))) ; use at your own risk
   `(list :system ',system ,@plist))
 
-(license-terms lem-confr
-  :type        '(:mit . "https://opensource.org/licenses/MIT")
-  :permissions '(:use :copy :modify :merge :publish :distribute :sublicense :sell)
-  :conditions  '(:include-copyright-notice)
+(license-terms cl-hvec
+  :type        '(:|LGPL-2.1-only WITH LLGPL| . "https://spdx.org/licenses/LLGPL.html")
+  :permissions '(:use :copy :modify :distribute :link)
+  :conditions  '(:include-copyright-notice
+                 :disclose-source-lib
+                 :same-license-lib
+                 :state-changes
+                 :lisp-linking)
   :warranty    nil)
 ```
 

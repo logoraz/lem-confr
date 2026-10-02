@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/core/lisp-ide
+(defpackage #:lem-confr/base/lisp-ide
   (:use #:cl #:lem)
   (:import-from #:lem/line-numbers
                 #:line-numbers-mode)
@@ -16,7 +16,7 @@
   (:export #:paredit-quotewrap)
   (:documentation "Lisp IDE Configuration"))
 
-(in-package #:lem-confr/core/lisp-ide)
+(in-package #:lem-confr/base/lisp-ide)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

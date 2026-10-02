@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/core/editing
+(defpackage #:lem-confr/base/editing
   (:use #:cl #:lem)
   (:import-from #:lem-core/commands/file
                 #:delete-trailing-whitespace-on-writing-file)
@@ -8,7 +8,7 @@
            #:paragraph-bounds)
   (:documentation "General text-editing behavior."))
 
-(in-package #:lem-confr/core/editing)
+(in-package #:lem-confr/base/editing)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

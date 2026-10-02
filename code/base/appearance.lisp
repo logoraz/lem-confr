@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/core/appearance
+(defpackage #:lem-confr/base/appearance
   (:use #:cl #:lem)
   (:import-from #:lem-core
                 #:set-font
@@ -16,7 +16,7 @@
                 #:paredit-mode)
   (:documentation "Appearance Configuration"))
 
-(in-package #:lem-confr/core/appearance)
+(in-package #:lem-confr/base/appearance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

@@ -1,4 +1,4 @@
-(defpackage #:lem-confr/core/filer
+(defpackage #:lem-confr/base/filer
   (:use #:cl #:lem)
   (:import-from #:lem/filer
                 #:render
@@ -13,7 +13,7 @@
            #:filer-create-directory)
   (:documentation "Filer Extensions -> dired style"))
 
-(in-package #:lem-confr/core/filer)
+(in-package #:lem-confr/base/filer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

@@ -1,8 +1,8 @@
-(defpackage #:lem-confr/core/grafts
+(defpackage #:lem-confr/base/grafts
   (:use #:cl #:lem)
   (:documentation "Lem overrides grafted in where possible, else documented."))
 
-(in-package #:lem-confr/core/grafts)
+(in-package #:lem-confr/base/grafts)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
