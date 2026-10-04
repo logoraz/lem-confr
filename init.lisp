@@ -8,46 +8,56 @@
 
 (in-package #:lem-confr/init)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+;;; Code:
+
+
 ;;; Bootstrap & Configuration
 
-;; sb-concurrency is an SBCL contrib — require, not ASDF, avoids ocicl's
-;; searcher trying to download it as a third-party system
-#+sbcl
-(require :sb-concurrency)
+(defparameter *ocicl-root* (uiop:xdg-cache-home "lem/")
+  "Directory holding ocicl's ocicl/ tree and ocicl.csv; installs land here.")
 
-;; ocicl (must precede both ASDF setup steps below — it hooks into
-;; ASDF's system-definition search machinery)
-#-ocicl
-(let ((ocicl-runtime (uiop:xdg-data-home "ocicl/ocicl-runtime.lisp")))
-  (when (probe-file ocicl-runtime)
-    (load ocicl-runtime)))
+(defun pin-lem-image-systems ()
+  "Mark every system already loaded in this Lem image as immutable.
+ASDF then never reloads or recompiles them from ocicl's duplicate
+copies (alexandria, closer-mop), so only genuinely new libraries build."
+  (map nil 'asdf:register-immutable-system (asdf:already-loaded-systems)))
 
-;; Disable ocicl's automatic network-install fallback — its searcher
-;; sits last in ASDF's search chain, so it can hijack any unresolved
-;; name, even ones buried in third-party dependencies we don't
-;; control (e.g. sb-cltl2, via introspect-environment). Off, that
-;; falls through to a normal missing-component error instead.
-(setf ocicl-runtime:*download* nil)
+(defun setup-asdf-environment ()
+  "Prepare ASDF to load lem-confr and its ocicl-installed dependencies.
+Order matters: the ocicl runtime hooks into ASDF's system search, so it
+loads before the registry and output-translation steps."
+  ;; sb-concurrency is an SBCL contrib — require, not ASDF, avoids ocicl's
+  ;; searcher trying to download it as a third-party system
+  #+sbcl
+  (require :sb-concurrency)
 
-;; Source registry: recursively discover any .asd under ~/.config/lem/
-(asdf:initialize-source-registry
- (list :source-registry
-       (list :tree (uiop:xdg-config-home "lem/"))
-       :inherit-configuration))
+  ;; Tested at run time: a #-ocicl conditional here would be evaluated
+  ;; when this DEFUN is read, before the runtime has been loaded
+  (unless (find-package "OCICL-RUNTIME")
+    (let ((runtime (uiop:xdg-data-home "ocicl/ocicl-runtime.lisp")))
+      (when (probe-file runtime)
+        (load runtime))))
 
-;; Output translations: compiled fasls go to XDG_CACHE_HOME, never
-;; beside source (source may live somewhere read-only, e.g. Guix store)
-(ensure-directories-exist (uiop:xdg-cache-home "common-lisp/"))
+  ;; with-current-directory below fails if the root doesn't exist yet
+  (ensure-directories-exist *ocicl-root*)
 
-(asdf:initialize-output-translations
- (list :output-translations
-       :enable-user-cache
-       :inherit-configuration))
+  ;; Source registry: recursively discover any .asd under ~/.config/lem/
+  ;; and under the ocicl root
+  (asdf:initialize-source-registry
+   (list :source-registry
+         (list :tree (uiop:xdg-config-home "lem/"))
+         (list :tree *ocicl-root*)
+         :inherit-configuration))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+  ;; Output translations: compiled fasls go to XDG_CACHE_HOME, never
+  ;; beside source (source may live somewhere read-only, e.g. Guix store)
+  (ensure-directories-exist (uiop:xdg-cache-home "common-lisp/"))
+  (asdf:initialize-output-translations
+   (list :output-translations
+         :enable-user-cache
+         :inherit-configuration)))
+
+
 ;;; Logging Facilities
 
 (defun current-time ()
@@ -83,8 +93,7 @@
       (format t "Unexpected error while saving log ~A: ~A~%" pathspec condition)
       nil)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Load System
 
 (let ((compiler-output (make-string-output-stream))
@@ -94,7 +103,10 @@
               (make-broadcast-stream *error-output* compiler-output))
             (*standard-output*
               (make-broadcast-stream *standard-output* compiler-output)))
-        (asdf:load-system :lem-confr)
+        (pin-lem-image-systems)
+        (setup-asdf-environment)
+        (uiop:with-current-directory (*ocicl-root*)
+          (asdf:load-system :lem-confr))
         (save-log-file
          "lem/logs/confr-startup.log" :startup
          (format nil "lem-confr v~A loaded in ~,3Fs"

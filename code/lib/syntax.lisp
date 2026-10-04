@@ -5,8 +5,7 @@
 
 (in-package #:lem-confr/lib/syntax)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Package Management
 
 (defun load-contrib (system &optional (package system))
@@ -16,8 +15,6 @@ defaulting to SYSTEM itself) already names a loaded package."
     (asdf:load-system system)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;; TODO
 
 #+nil

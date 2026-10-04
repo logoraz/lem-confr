@@ -18,8 +18,7 @@
 
 (in-package #:lem-confr/base/appearance)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Frame Parameters/Transparency
 ;;;
 ;;; webkit_web_view_set_background_color only fills in where the page draws
@@ -27,14 +26,12 @@
 ;;; no CFFI call can override it. Real transparency needs patching that JS and
 ;;; rebuilding the Vite bundle — not a Lisp fix
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Fonts
 ;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
 (set-font :name "Fira Code Light" :size 13)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Theme Configuration
 
 ;; See lem/src/ext/themes.lisp
@@ -57,8 +54,7 @@
 (define-attribute active-line-number-attribute
   (t :foreground :base0d :background (highlight-line-color)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Dashboard
 
 (defvar *lem-confr-splash*
@@ -100,9 +96,8 @@
 
 (define-key *dashboard-mode-keymap* "l" 'lisp-scratch-2)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Tabs
 
-;; Toggle/Disable tabbar
+;;; Tabs
+;;; Toggle/Disable tabbar
+
 (setf lem/tabbar:*enable-tabbar-on-startup* nil)

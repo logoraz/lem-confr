@@ -10,8 +10,7 @@
 
 (in-package #:lem-confr/scratch)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Julian Date/Time Stamp Generator
 
 (defun julian-day (year month day)
@@ -45,6 +44,5 @@ argument, prompt for year, month, and day instead."
                   (current-julian-date-code))))
     (insert-string (current-point) code)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; TODO

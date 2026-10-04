@@ -15,8 +15,7 @@
 
 (in-package #:lem-confr/base/filer)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Filer Extensions
 
 (defun refresh-directory-item (item)

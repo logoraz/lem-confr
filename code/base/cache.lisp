@@ -11,8 +11,7 @@
 
 (in-package #:lem-confr/base/cache)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Lem Cache Redirection
 ;;; (should NOT be VOMITED in the user config directory)
 ;;; Instead should be put in XDG_CACHE_HOME where cache should live!
@@ -70,8 +69,7 @@ by redefining config-pathname to merge with XDG_CACHE_HOME instead of lem-home."
       (merge-pathnames lem-core::*config-file-name*
                        (uiop:xdg-cache-home "lem/")))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Lem Cache Redirection
 
 (defun clear-confr-logs ()
@@ -90,8 +88,7 @@ the empty directory so history/debug.log/settings.sexp writes still succeed."
       (uiop:delete-directory-tree cache-dir :validate t))
     (ensure-directories-exist cache-dir)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Lem Tutorial Saves Redirection
 
 (defun redirect-tutor-saves ()
@@ -106,8 +103,7 @@ tutorial-progress to merge with XDG_CACHE_HOME instead of lem-home."
       (merge-pathnames "lem-tutor-saves/lem-tutor-progress.lisp"
                        (uiop:xdg-cache-home "lem/")))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Apply
 
 (redirect-debug-log)

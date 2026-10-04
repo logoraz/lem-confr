@@ -1,5 +1,8 @@
 (defpackage #:lem-confr/base/editing
   (:use #:cl #:lem)
+  #-loop/khazern
+  (:shadowing-import-from :khazern-extrinsic
+                          #:loop #:loop-finish)
   (:import-from #:lem-core/commands/file
                 #:delete-trailing-whitespace-on-writing-file)
   (:export #:fill-column
@@ -10,16 +13,13 @@
 
 (in-package #:lem-confr/base/editing)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Trailing Whitespace
 
 ;; See lem-core/commands/edit.lisp, lem-core/commands/file.lisp
 (setf (variable-value 'delete-trailing-whitespace-on-writing-file :global) t)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;; Fill Paragraph
 ;;;
 ;;; Lem has no fill-paragraph analogous to Emacs's M-q — built here on top

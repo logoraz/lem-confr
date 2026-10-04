@@ -18,14 +18,12 @@
 
 (in-package #:lem-confr/base/lisp-ide)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; General Editing
 ;; Globally Enable Line Numbers:
 (line-numbers-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Paredit
 
 ;; Enable paredit-mode in lisp-mode
@@ -46,8 +44,7 @@ space paredit-meta-doublequote leaves behind."
   (paredit-meta-doublequote)
   (delete-next-char))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Lisp Interaction (aka SLIME)
 ;;;
 ;;; 1. Change *tmp* buffer to lisp-mode
@@ -66,17 +63,17 @@ never sees."
     (append (when (executable-find "sbcl") (list "sbcl"))
             (when (executable-find "clasp") (list "clasp")))))
 
-;;; Root cause of the clasp branch below: Guix's asdf-build-system/sbcl
-;;; auto-registers one $XDG_CONFIG_DIRS/common-lisp/source-registry.conf.d/
-;;; entry per SBCL library in a package's dependency closure — lem pulls in
-;;; sbcl-micros this way (needed for its own SBCL-side Lisp mode), same as
-;;; every other sbcl-* library it depends on. That collides with cl-micros,
-;;; installed separately for clasp: both register an ASDF system literally
-;;; named "micros", and clasp's own name-based resolution finds sbcl-micros's
-;;; (SBCL-only) fasls first, well before its :directory entry for cl-micros
-;;; ever gets consulted. Not a clasp-cl packaging bug — this is structural to
-;;; how asdf-build-system/sbcl populates that directory for every SBCL
-;;; library, and would hit any two packages sharing a system name this way.
+;; Root cause of the clasp branch below: Guix's asdf-build-system/sbcl
+;; auto-registers one $XDG_CONFIG_DIRS/common-lisp/source-registry.conf.d/
+;; entry per SBCL library in a package's dependency closure — lem pulls in
+;; sbcl-micros this way (needed for its own SBCL-side Lisp mode), same as
+;; every other sbcl-* library it depends on. That collides with cl-micros,
+;; installed separately for clasp: both register an ASDF system literally
+;; named "micros", and clasp's own name-based resolution finds sbcl-micros's
+;; (SBCL-only) fasls first, well before its :directory entry for cl-micros
+;; ever gets consulted. Not a clasp-cl packaging bug — this is structural to
+;; how asdf-build-system/sbcl populates that directory for every SBCL
+;; library, and would hit any two packages sharing a system name this way.
 (sb-ext:without-package-locks
   (defun lem-lisp-mode/internal::send-micros-create-server (process port)
     "Override to drop the hard-coded (asdf:load-asd <path>) step (always
@@ -100,8 +97,7 @@ sbcl should keep using its own fast, precompiled sbcl-micros."
      process
      (format nil "(micros:create-server :port ~D :dont-close t)~%" port))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Markdown Mode Enhancement
 
 (add-hook lem-markdown-mode:*markdown-mode-hook*

@@ -33,10 +33,7 @@
 
 (in-package #:lem-confr/commands)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;; Window Layouts
-;;;
 ;;; src/commands/window.lisp
 
 (define-command stack-window-layout () ()
@@ -44,8 +41,7 @@
   (next-window)
   (split-active-window-vertically))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Time Stamps
 
 (defvar *time-stamp-format*
@@ -61,8 +57,7 @@
   "Print a timestamp of today, in the form <2042-12-01 Mon>."
   (insert-string (current-point) (format-time-stamp :stream t)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Clear Cache Commands
 
 (define-command confr-clear-logs () ()
@@ -79,8 +74,6 @@
       (message "Cache clear cancelled.")))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;; Filer Commands
 
 (define-command confr-filer-refresh () ()
@@ -91,16 +84,14 @@
   "Create a new directory inside the current *Filer* view."
   (filer-create-directory name))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Paredit
 
 (define-command confr-paredit-quotewrap () ()
   "Wrap the following s-expression/atom in double quotes."
   (paredit-quotewrap))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Editing
 
 (define-command confr-fill-paragraph () ()

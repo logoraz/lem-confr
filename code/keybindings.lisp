@@ -36,8 +36,7 @@
 
 (in-package #:lem-confr/keybindings)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; General Keybindings
 
 (defun editing-keybindings ()
@@ -83,8 +82,7 @@ eval-clear, log/cache clearing, and Filer refresh."
   (define-key *filer-mode-keymap* "g" 'confr-filer-refresh)
   (define-key *filer-mode-keymap* "+" 'confr-filer-create-directory))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Apply Keybindings
 
 (editing-keybindings)

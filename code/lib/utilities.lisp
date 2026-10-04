@@ -8,8 +8,7 @@
 
 (in-package #:lem-confr/lib/utilities)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; General Utilities
 
 (defun executable-find (program)
@@ -47,6 +46,5 @@ Returns T if symlink was created, NIL if it already existed and FORCE was nil."
     (sb-posix:symlink source-path target-path)
     t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; TODO

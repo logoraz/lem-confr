@@ -1,8 +1,12 @@
 (defpackage #:confr-md-table
   (:use #:cl #:lem)
+  #-loop/khazern
+  (:shadowing-import-from :khazern-extrinsic
+                          #:loop #:loop-finish)
   (:export #:confr-markdown-tab))
 
 (in-package #:confr-md-table)
+
 
 (define-key lem-markdown-mode::*markdown-mode-keymap* "Tab" 'confr-markdown-tab)
 

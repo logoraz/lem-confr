@@ -2,8 +2,10 @@
   :description "Modular Lem Configuration."
   :author "Erik P Almaraz"
   :license "LGPL-2.1-only WITH LLGPL"
-  :version (:read-file-form "version.sexp" :at (0 1))
-  :depends-on ("local-time")
+  :version (:read-file-form "data/version.sexp" :at (0 1))
+  :depends-on ("khazern-intrinsic"
+               "khazern-extension-intrinsic"
+               "local-time")
   :components ((:module "lib"
                 :pathname "code/lib"
                 :components ((:file "syntax")

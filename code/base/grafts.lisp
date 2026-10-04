@@ -4,8 +4,7 @@
 
 (in-package #:lem-confr/base/grafts)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Filer (Highlighting/Overlay Issue)
 
 (sb-ext:without-package-locks
@@ -24,8 +23,7 @@ Filer pane highlighting on any directory expand/collapse."
           (move-to-line (buffer-point buffer) line)
           (back-to-indentation (buffer-point buffer)))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Trailing Spaces (Toggle Issue)
 ;;;
 ;;; 1. Stale Highlighting on Disable
@@ -68,8 +66,7 @@ switchability for anything that isn't currently active."
       (lem-trailing-spaces::scan-trailing-spaces (buffer-start-point buffer)
                                                  (buffer-end-point buffer)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Line Numbers (Read-Only/Temporary Buffer Restri<ction)
 ;;;
 ;;; 1. File Requirement
@@ -110,8 +107,7 @@ method for comparison."
           (lem/buffer/line:make-content :string string
                                         :attributes attribute))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
+
 ;;; Filer (Mouse Hover Highlight — Known Limitation, Not Fixed Here)
 ;;;
 ;;; Filer's set-clickable (src/mouse.lisp) bundles hover-highlighting and
@@ -132,8 +128,6 @@ method for comparison."
 ;;; a pure-Lisp override here. Not patched.
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
 ;;; Syntax Highlighting (Viewport-Scan Stale-State Bug)
 ;;;
 ;;; Lem only syntax-highlights the visible viewport on file-open, not the
