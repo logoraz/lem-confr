@@ -1,10 +1,7 @@
-(defpackage #:confr-md-table
+(uiop:define-package #:confr-md-table
   (:use #:cl #:lem)
-  #-loop/khazern
-  (:shadowing-import-from :khazern-extrinsic
-                          #:loop #:loop-finish)
-  (:export #:confr-markdown-tab))
-
+  (:export #:confr-markdown-tab)
+  (:documentation "Provide formating for tables in markdown mode."))
 (in-package #:confr-md-table)
 
 

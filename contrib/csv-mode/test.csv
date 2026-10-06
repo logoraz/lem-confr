@@ -1,0 +1,6 @@
+id,name,link,note
+1,Alice,https://example.com/docs,"see https://example.com/a, then https://example.org/b."
+2,Bob,"https://example.com/quoted",plain
+3,Carol,ftp://files.example.net/pub,"no link here"
+5,Eve,"first line
+second line",plain

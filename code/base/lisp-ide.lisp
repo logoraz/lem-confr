@@ -102,3 +102,17 @@ sbcl should keep using its own fast, precompiled sbcl-micros."
 
 (add-hook lem-markdown-mode:*markdown-mode-hook*
           (lambda () (load-contrib :confr-md-table)))
+
+;;; CSV Mode
+
+(defun load-csv-mode-for-csv-files (buffer)
+  "Load the csv-mode contrib when BUFFER visits a .csv file.
+Runs before PROCESS-FILE (weight 5000), so the file type the contrib
+registers is in place when Lem picks the buffer's mode."
+  (let ((filename (buffer-filename buffer)))
+    (when (and filename (equalp (pathname-type filename) "csv"))
+      (handler-case (load-contrib :csv-mode)
+        (error (condition)
+          (message "csv-mode failed to load: ~A" condition))))))
+
+(add-hook *find-file-hook* 'load-csv-mode-for-csv-files 6000)
