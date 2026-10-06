@@ -29,7 +29,7 @@
 
 ;;; Fonts
 ;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
-(set-font :name "Fira Code Light" :size 13)
+(set-font :name "Fira Code Light" :size 15)
 
 
 ;;; Theme Configuration
@@ -83,16 +83,16 @@
 
 
 (define-command lisp-scratch-2 () ()
-  "Define lisp-scratch buffer that enables paredit mode straight away!"
+  "Define lisp-scratch buffer that enables lisp & paredit mode straight away!"
   (let ((buffer (primordial-buffer)))
     (change-buffer-mode buffer 'lisp-mode)
     (change-buffer-mode buffer 'paredit-mode t)
     (switch-to-buffer buffer)))
 
 (set-default-dashboard :splash *lem-confr-splash*
-                       :project-count 3
+                       :project-count 7
                        :file-count 7
-                       :hide-links t)
+                       :hide-links nil)
 
 (define-key *dashboard-mode-keymap* "l" 'lisp-scratch-2)
 
