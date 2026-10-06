@@ -4,8 +4,7 @@
   :license "LGPL-2.1-only WITH LLGPL"
   :version (:read-file-form "data/version.sexp" :at (0 1))
   :depends-on ("khazern-intrinsic"
-               "khazern-extension-intrinsic"
-               "local-time")
+               "khazern-extension-intrinsic")
   :components ((:module "lib"
                 :pathname "code/lib"
                 :components ((:file "syntax")
