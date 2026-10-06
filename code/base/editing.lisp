@@ -1,14 +1,13 @@
 (defpackage #:lem-confr/base/editing
   (:use #:cl #:lem)
-  #-loop/khazern
-  (:shadowing-import-from :khazern-extrinsic
-                          #:loop #:loop-finish)
   (:import-from #:lem-core/commands/file
                 #:delete-trailing-whitespace-on-writing-file)
   (:export #:fill-column
            #:split-words
            #:wrap-words
-           #:paragraph-bounds)
+           #:paragraph-bounds
+           #:fill-text
+           #:fill-active-region)
   (:documentation "General text-editing behavior."))
 
 (in-package #:lem-confr/base/editing)
@@ -75,7 +74,69 @@ the current point, leaving the actual cursor position undisturbed."
     (let ((start (copy-point (current-point) :temporary)))
       (move-point (current-point) origin)
       (forward-paragraph)
-      (character-offset (current-point) -1)
+      ;; FORWARD-PARAGRAPH stops on the blank line after the paragraph, or
+      ;; at the end of the buffer when no blank line follows.  Back up one
+      ;; character only in the first case; in the second we are already at
+      ;; the end of the paragraph's last line.
+      (when (blank-line-p (current-point))
+        (character-offset (current-point) -1))
       (let ((end (copy-point (current-point) :temporary)))
         (move-point (current-point) origin)
         (values start end)))))
+
+
+;;; At region implementation
+
+(defun blank-string-p (string)
+  "True if STRING holds only spaces and tabs, matching Lem's BLANK-LINE-P."
+  (every (lambda (char) (member char '(#\space #\tab))) string))
+
+(defun split-lines (string)
+  "Split STRING at newlines into a list of lines.
+Keeps a trailing empty line when STRING ends in a newline, so that
+JOIN-LINES restores the original text exactly."
+  (loop :with start = 0
+        :for end = (position #\newline string :start start)
+        :collect (subseq string start end)
+        :while end
+        :do (setf start (1+ end))))
+
+(defun join-lines (lines)
+  "Join LINES with newlines; the inverse of SPLIT-LINES."
+  (format nil "~{~A~^~%~}" lines))
+
+(defun fill-text (text fill-column)
+  "Reflow every paragraph in TEXT to fit FILL-COLUMN, returning a new string.
+Paragraphs are runs of non-blank lines.  The blank lines between them are
+kept exactly as they are, so paragraphs are never merged."
+  (let ((output '())
+        (paragraph '()))
+    (flet ((flush ()
+             (when paragraph
+               (let ((words (split-words (join-lines (nreverse paragraph)))))
+                 (push (wrap-words words fill-column) output))
+               (setf paragraph '()))))
+      (dolist (line (split-lines text))
+        (cond ((blank-string-p line)
+               (flush)
+               (push line output))
+              (t (push line paragraph))))
+      (flush))
+    (join-lines (nreverse output))))
+
+(defun fill-active-region (buffer fill-column)
+  "Reflow each paragraph in the active region of BUFFER to FILL-COLUMN.
+The region is widened to whole lines, and a region ending at column 0 stops
+at the end of the previous line.  The mark is cancelled afterwards."
+  (let ((start (copy-point (region-beginning buffer) :temporary))
+        (end (copy-point (region-end buffer) :temporary)))
+    (line-start start)
+    (when (and (zerop (point-charpos end)) (point< start end))
+      (character-offset end -1))
+    (line-end end)
+    (let* ((old (points-to-string start end))
+           (new (fill-text old fill-column)))
+      (unless (string= old new)
+        (delete-between-points start end)
+        (insert-string start new)))
+    (buffer-mark-cancel buffer)))

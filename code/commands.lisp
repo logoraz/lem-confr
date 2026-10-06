@@ -16,7 +16,9 @@
                 #:fill-column
                 #:split-words
                 #:wrap-words
-                #:paragraph-bounds)
+                #:paragraph-bounds
+                #:fill-text
+                #:fill-active-region)
   (:import-from #:lem-confr/base/filer
                 #:filer-refresh
                 #:filer-create-directory)
@@ -95,10 +97,14 @@
 ;;; Editing
 
 (define-command confr-fill-paragraph () ()
-  "Reflow the current paragraph to fit within fill-column — analogous
-to Emacs's M-q."
-  (multiple-value-bind (start end) (paragraph-bounds)
-    (let* ((words (split-words (points-to-string start end)))
-           (fill-col (variable-value 'fill-column :default (current-buffer))))
-      (delete-between-points start end)
-      (insert-string start (wrap-words words fill-col)))))
+  "Reflow the paragraph at point, or every paragraph in the active region,
+to fit within fill-column; analogous to Emacs's M-q."
+  (let* ((buffer (current-buffer))
+         (fill-col (variable-value 'fill-column :default buffer)))
+    (if (and (buffer-mark-p buffer)
+             (point/= (region-beginning buffer) (region-end buffer)))
+        (fill-active-region buffer fill-col)
+        (multiple-value-bind (start end) (paragraph-bounds)
+          (let ((words (split-words (points-to-string start end))))
+            (delete-between-points start end)
+            (insert-string start (wrap-words words fill-col)))))))
