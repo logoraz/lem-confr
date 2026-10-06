@@ -103,7 +103,7 @@ sbcl should keep using its own fast, precompiled sbcl-micros."
 (add-hook lem-markdown-mode:*markdown-mode-hook*
           (lambda () (load-contrib :confr-md-table)))
 
-;;; CSV Mode
+;;; CSV Mode with CSV Rainbow Mode
 
 (defun load-csv-mode-for-csv-files (buffer)
   "Load the csv-mode contrib when BUFFER visits a .csv file.
@@ -116,3 +116,19 @@ registers is in place when Lem picks the buffer's mode."
           (message "csv-mode failed to load: ~A" condition))))))
 
 (add-hook *find-file-hook* 'load-csv-mode-for-csv-files 6000)
+
+(defun enable-csv-rainbow-mode (buffer)
+  "Turn on csv-rainbow-mode in BUFFER when it is in csv-mode.
+Runs after Lem has chosen the buffer's mode (default hook weight).  The
+symbols are looked up at run time, because the csv-mode package does not
+exist until the contrib has been loaded."
+  (let ((csv-package (find-package "CSV-MODE")))
+    (when csv-package
+      (let ((csv-mode (find-symbol "CSV-MODE" csv-package))
+            (rainbow (find-symbol "CSV-RAINBOW-MODE" csv-package)))
+        (when (eq (buffer-major-mode buffer) csv-mode)
+          (change-buffer-mode buffer rainbow t))))))
+
+(add-hook *find-file-hook* 'enable-csv-rainbow-mode)
+
+;;; TODO

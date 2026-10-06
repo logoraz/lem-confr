@@ -1,6 +1,47 @@
-id,name,link,note
-1,Alice,https://example.com/docs,"see https://example.com/a, then https://example.org/b."
-2,Bob,"https://example.com/quoted",plain
-3,Carol,ftp://files.example.net/pub,"no link here"
+id,name,keyword,link,category,status,version,note
+1,Alice,docs,https://example.com/docs,guide,active,4.5,"see https://example.com/a, then https://example.org/b."
+2,Bob,quoted,"https://example.com/quoted",demo,draft,3.0,plain
+3,Carol,files,ftp://files.example.net/pub,archive,active,4.0,"no link here"
 5,Eve,"first line
-second line",plain
+second line",https://example.com/eve,notes,review,2.5,plain
+6,Frank,query,http://insecure.example.com/page?x=1&y=2#top,web,active,3.5,"query string and fragment"
+7,Grace,period,https://example.com/path/file.txt.,docs,active,4.2,"period after the URL"
+8,Heidi,parens,(https://example.com/in-parens),docs,draft,3.8,"closing parenthesis"
+9,Ivan,space,see https://example.com/now for details,help,active,4.1,"URL ends at a space"
+10,Judy,two,https://one.example.com and https://two.example.com,web,review,3.3,"two URLs in one field"
+11,Karl,upper,HTTPS://UPPER.EXAMPLE.COM,web,draft,2.9,"uppercase scheme"
+12,Lena,bare,www.example.com,web,draft,3.1,"no scheme"
+13,Mike,mail,mailto:mike@example.com,contact,active,4.4,"mail address"
+# a comment between two records
+14,Nina,,,,,,
+15,,empty-name,https://example.com/no-name,misc,active,,
+,16,leading-empty-field,https://example.com/lead,misc,draft,1.0,x
+17,Omar,"",https://example.com/omar,misc,active,5.0,empty quoted value
+18,Pia," padded with spaces ",https://example.com/pia,misc,draft,3.6,x
+19,Quinn,"a, b, c",https://example.com/quinn,misc,active,4.7,"commas inside quotes"
+20,Rita,"he said ""hi"" and left",https://example.com/rita,misc,review,2.2,x
+21,Sven,"""",https://example.com/sven,misc,draft,1.5,a lone quote character
+22,Tara,three-line,https://example.com/tara,misc,active,3.9,"line one
+line two, with a comma and https://example.com/mid
+line three"
+23,"Multi
+Name",multi,https://example.com/after-multiline,misc,review,2.0,tail
+24,Uma,"first
+
+last after a blank line",https://example.com/uma,misc,active,4.8,z
+25,Vic,ab"cd"ef,https://example.com/vic,misc,draft,3.2,quote inside a plain field
+26,Wes,it's fine,https://example.com/wes,misc,active,4.0,apostrophes are ordinary
+27, Xena , spaces , https://example.com/xena ,misc,draft,3.0,end
+28,Zoë,naïve,https://example.com/café,misc,active,4.6,"naïve, façade, 日本語"
+31,Hana,color,https://example.com/h,#ff0000,active,1.0,"hex color field"
+32,Ines,tag,https://example.com/i#section,#42,draft,2.0,#hashtag note
+33,Jon,"first line
+# this line starts with a hash but is inside quotes",https://example.com/jon,misc,active,3.0,z
+# a comment line: commas, "quotes" and https://example.com/x are all comment text
+# an odd quote " here must not start a string
+,,,,,,,
+
+zero,one,two,three,four,five,six,seven,eight,nine,ten,eleven
+a,b,c,d,e,f,g,h,i,j,k,l
+29,Yuri,long,https://example.com/a/very/long/path/that/keeps/going/and/going/until/it/runs/off/the/right/edge/of/the/window?query=string&with=many&parameters=here,misc,active,4.9,"a long note that also keeps going well past the right edge of the window, so that the cut-off line and horizontal scrolling can be checked, with several commas, and more words, and even more words after that"
+30,Zed,last,https://example.com/last,misc,draft,3.0,row
