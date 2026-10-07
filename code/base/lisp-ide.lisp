@@ -52,8 +52,14 @@ space paredit-meta-doublequote leaves behind."
 ;;; 2. Extend implementation detection past sbcl — upstream only checks sbcl
 ;;;    directly on PATH; Roswell-managed implementations are found separately,
 ;;;    but Guix-installed ones like clasp are neither.
+;;;
+;;; see appearance.lisp --> lisp-scratch-2
 
-(change-buffer-mode (get-buffer "*tmp*") 'lisp-mode)
+#+(or)
+(progn
+  (change-buffer-mode (get-buffer "*tmp*") 'lisp-mode)
+  (change-buffer-mode (get-buffer "*tmp*") 'paredit-mode t))
+
 
 (sb-ext:without-package-locks
   (defun lem-lisp-mode/implementation::list-installed-implementations ()
