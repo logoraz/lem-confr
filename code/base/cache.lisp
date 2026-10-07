@@ -49,7 +49,11 @@ by redefining start-listener-mode to redirect its pathname argument."
     (setf lem-core/commands/other::*commands-history*
           (lem/common/history:make-history
            :pathname (merge-pathnames "commands" cache-history)
-           :limit lem-core/commands/other::*history-limit*))))
+           :limit lem-core/commands/other::*history-limit*))
+    (setf lem-core/commands/project::*projects-history*
+          (lem/common/history:make-history
+           :pathname (merge-pathnames "projects" cache-history)
+           :limit 20))))
 
 (defun redirect-debug-log ()
   "Redirect lem's debug.log from ~/.config/lem/ to ~/.cache/lem/logs/.
