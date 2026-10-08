@@ -28,8 +28,17 @@
 
 
 ;;; Fonts
-;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
-(set-font :name "Fira Code Light" :size 15)
+;;;
+;;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
+
+;; Inconsolata: 0.5 em advance, so size 14 gives an exact 7 px cell (0% squeeze).
+(set-font :name "Inconsolata" :size 18)
+
+;; Fira Code Light: 0.6 em advance, so size 15 gives an exact 9 px cell (0% squeeze).
+#+nil (set-font :name "Fira Code Light" :size 15)
+
+;; Kawkab Mono Light: 0.7 em advance, so size 13 gives a 9 px cell (1.1% squeeze).
+#+nil (set-font :name "Kawkab Mono Light" :size 13)
 
 
 ;;; Theme Configuration
@@ -92,7 +101,7 @@
 (set-default-dashboard :splash *lem-confr-splash*
                        :project-count 7
                        :file-count 7
-                       :hide-links nil)
+                       :hide-links t)
 
 (define-key *dashboard-mode-keymap* "l" 'lisp-scratch-2)
 
