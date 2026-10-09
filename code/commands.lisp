@@ -7,6 +7,9 @@
   (:import-from #:local-time
                 #:format-timestring
                 #:now)
+  (:import-from #:lem-confr/base/appearance
+                #:*confr-fonts*
+                #:apply-font)
   (:import-from #:lem-confr/base/cache
                 #:clear-confr-logs
                 #:clear-lem-cache)
@@ -23,6 +26,7 @@
                 #:filer-refresh
                 #:filer-create-directory)
   (:export #:stack-window-layout
+           #:confr-choose-font
            #:*time-stamp-format*
            #:time-stamp)
   (:export #:confr-paredit-quotewrap
@@ -42,6 +46,18 @@
   (split-active-window-horizontally)
   (next-window)
   (split-active-window-vertically))
+
+;;; Font Configuration
+;;;
+
+(define-command confr-choose-font () ()
+  "Prompt, with completion, for a font from `*confr-fonts*' and apply it."
+  (let* ((names (mapcar #'car *confr-fonts*))
+         (name (prompt-for-string
+                "Font: "
+                :completion-function (lambda (x) (completion-strings x names))
+                :test-function (lambda (x) (member x names :test #'string=)))))
+    (apply-font name)))
 
 
 ;;; Time Stamps

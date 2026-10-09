@@ -14,6 +14,8 @@
                 #:lisp-mode)
   (:import-from #:lem-paredit-mode
                 #:paredit-mode)
+  (:export #:*confr-fonts*
+           #:apply-font)
   (:documentation "Appearance Configuration"))
 
 (in-package #:lem-confr/base/appearance)
@@ -31,14 +33,24 @@
 ;;;
 ;;; See lem/src/interface.lisp (or lem/src/commands/font.lisp)
 
-;; Inconsolata: 0.5 em advance, so size 14 gives an exact 7 px cell (0% squeeze).
-(set-font :name "Inconsolata" :size 18)
+(defparameter *confr-fonts*
+  '(("JetBrains Mono Light" . 15)
+    ("Noto Sans Mono"       . 14)
+    ("kawkab Mono Light"    . 13)
+    ("Inconsolata"          . 14)
+    ("Fira Code Light"      . 15))
+  "Alist of (FAMILY . SIZE) pairs. Entries are listed in order of preference.
+Each size is an exact or near-exact fit for that font's advance width.")
 
-;; Fira Code Light: 0.6 em advance, so size 15 gives an exact 9 px cell (0% squeeze).
-#+nil (set-font :name "Fira Code Light" :size 15)
+(defun apply-font (name)
+  "Apply the font NAME from `*confr-fonts*', using its paired size.
+Do nothing when NAME is not in the list."
+  (let ((entry (assoc name *confr-fonts* :test #'string=)))
+    (when entry
+      (set-font :name (car entry) :size (cdr entry)))))
 
-;; Kawkab Mono Light: 0.7 em advance, so size 13 gives a 9 px cell (1.1% squeeze).
-#+nil (set-font :name "Kawkab Mono Light" :size 13)
+;; Apply the "default" font at load.
+(apply-font (car (first *confr-fonts*)))
 
 
 ;;; Theme Configuration
